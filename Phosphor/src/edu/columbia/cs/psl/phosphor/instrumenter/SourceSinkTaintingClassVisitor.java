@@ -3,7 +3,6 @@ package edu.columbia.cs.psl.phosphor.instrumenter;
 import edu.columbia.cs.psl.phosphor.BasicSourceSinkManager;
 import edu.columbia.cs.psl.phosphor.Configuration;
 import edu.columbia.cs.psl.phosphor.TaintUtils;
-
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -31,9 +30,9 @@ public class SourceSinkTaintingClassVisitor extends ClassVisitor {
     @Override
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
         MethodVisitor mv = super.visitMethod(access, name, desc, signature, exceptions);
-        if(((access & Opcodes.ACC_NATIVE) == 0) && (name.contains(TaintUtils.METHOD_SUFFIX) || TaintUtils.containsTaintSentinel(desc)) || (!containsPrimitiveType(desc) && !Configuration.IMPLICIT_TRACKING)) {
+        if (((access & Opcodes.ACC_NATIVE) == 0) && (name.contains(TaintUtils.METHOD_SUFFIX) || TaintUtils.containsTaintSentinel(desc)) || (!containsPrimitiveType(desc) && !Configuration.IMPLICIT_TRACKING)) {
             // Method is not a native method and it is not a method for which $$PHOSPHORTAGGED or TaintSentinel containing version should have been created.
-            if(BasicSourceSinkManager.getInstance().isSink(className, name, desc)) {
+            if (BasicSourceSinkManager.getInstance().isSink(className, name, desc)) {
                 // Method is a sink
                 final SinkTaintingMV sinkMV = new SinkTaintingMV(mv, access, className, name, desc);
                 mv = new MethodNode(Configuration.ASM_VERSION, access, name, desc, signature, exceptions) {
@@ -45,11 +44,11 @@ public class SourceSinkTaintingClassVisitor extends ClassVisitor {
                     }
                 };
             }
-            if(BasicSourceSinkManager.getInstance().isSource(className, name, desc)) {
+            if (BasicSourceSinkManager.getInstance().isSource(className, name, desc)) {
                 // Method is a source
                 mv = new SourceTaintingMV(mv, access, className, name, desc);
             }
-            if(BasicSourceSinkManager.getInstance().isTaintThrough(className, name, desc)) {
+            if (BasicSourceSinkManager.getInstance().isTaintThrough(className, name, desc)) {
                 // Method is a taintThrough method
                 if ((access & Opcodes.ACC_STATIC) == 0) {
                     mv = new TaintThroughTaintingMV(mv, access, className, name, desc);
@@ -61,7 +60,7 @@ public class SourceSinkTaintingClassVisitor extends ClassVisitor {
 
     /* Returns whether the specified Type is a primitive type. */
     public static boolean isPrimitive(Type t) {
-        switch(t.getSort()) {
+        switch (t.getSort()) {
             case BOOLEAN:
             case BYTE:
             case CHAR:
@@ -81,8 +80,8 @@ public class SourceSinkTaintingClassVisitor extends ClassVisitor {
     /* Returns whether the specified method description indicates primitive or primitive array type in the parameter list */
     public static boolean containsPrimitiveType(String desc) {
         Type[] types = Type.getArgumentTypes(desc);
-        for(Type type : types) {
-            if(isPrimitive(type)) {
+        for (Type type : types) {
+            if (isPrimitive(type)) {
                 return true;
             }
         }

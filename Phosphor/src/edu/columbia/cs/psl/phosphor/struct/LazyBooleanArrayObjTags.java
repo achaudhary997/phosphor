@@ -41,11 +41,11 @@ public final class LazyBooleanArrayObjTags extends LazyArrayObjTags {
     }
 
     public void set(boolean[] l, Taint idxTag, int idx, Taint tag, boolean val) {
-        if(Configuration.derivedTaintListener != null) {
+        if (Configuration.derivedTaintListener != null) {
             set(l, idx, Configuration.derivedTaintListener.arraySet(this, idxTag, idx, tag, val, null), val);
-        } else if(idxTag == null) {
+        } else if (idxTag == null) {
             set(l, idx, tag, val);
-        } else if(tag == null) {
+        } else if (tag == null) {
             set(l, idx, idxTag, val);
         } else {
             set(l, idx, new Taint(tag, idxTag), val);
@@ -54,10 +54,10 @@ public final class LazyBooleanArrayObjTags extends LazyArrayObjTags {
 
     public void set(boolean[] arr, int idx, Taint tag, boolean val) {
         this.val[idx] = val;
-        if(taints == null && tag != null) {
+        if (taints == null && tag != null) {
             taints = new Taint[this.val.length];
         }
-        if(taints != null) {
+        if (taints != null) {
             taints[idx] = tag;
         }
     }
@@ -104,17 +104,17 @@ public final class LazyBooleanArrayObjTags extends LazyArrayObjTags {
     }
 
     public void ensureVal(boolean[] v) {
-        if(v != val) {
+        if (v != val) {
             val = v;
         }
     }
 
     private void writeObject(ObjectOutputStream stream) throws IOException {
-        if(val == null) {
+        if (val == null) {
             stream.writeInt(-1);
         } else {
             stream.writeInt(val.length);
-            for(boolean el : val) {
+            for (boolean el : val) {
                 stream.writeBoolean(el);
             }
         }
@@ -123,11 +123,11 @@ public final class LazyBooleanArrayObjTags extends LazyArrayObjTags {
 
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
         int len = stream.readInt();
-        if(len == -1) {
+        if (len == -1) {
             val = null;
         } else {
             val = new boolean[len];
-            for(int i = 0; i < len; i++) {
+            for (int i = 0; i < len; i++) {
                 val[i] = stream.readBoolean();
             }
         }

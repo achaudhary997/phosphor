@@ -30,11 +30,11 @@ public class SinglyLinkedList<E> implements Iterable<E>, Serializable {
 
     /* Returns whether the list contains an item that is equal to the specified item with respect to the equals method. */
     public boolean contains(E item) {
-        if(head == null) {
+        if (head == null) {
             return false;
         } else {
-            for(Node<E> cur = head; cur != null; cur = cur.next) {
-                if(cur.item.equals(item)) {
+            for (Node<E> cur = head; cur != null; cur = cur.next) {
+                if (cur.item.equals(item)) {
                     return true;
                 }
             }
@@ -44,11 +44,11 @@ public class SinglyLinkedList<E> implements Iterable<E>, Serializable {
 
     /* Returns whether the list contains an item that is referentially equal to the specified item. */
     public boolean identityContains(E item) {
-        if(head == null) {
+        if (head == null) {
             return false;
         } else {
-            for(Node<E> cur = head; cur != null; cur = cur.next) {
-                if(cur.item == item) {
+            for (Node<E> cur = head; cur != null; cur = cur.next) {
+                if (cur.item == item) {
                     return true;
                 }
             }
@@ -60,7 +60,7 @@ public class SinglyLinkedList<E> implements Iterable<E>, Serializable {
     public void addLast(E item) {
         Node<E> n = new Node<E>(item);
         size++;
-        if(tail == null) {
+        if (tail == null) {
             // The list was empty
             head = tail = n;
         } else {
@@ -73,7 +73,7 @@ public class SinglyLinkedList<E> implements Iterable<E>, Serializable {
     public void addFirst(E item) {
         Node<E> n = new Node<E>(item, head);
         size++;
-        if(head == null) {
+        if (head == null) {
             // The list was empty
             head = tail = n;
         } else {
@@ -84,7 +84,7 @@ public class SinglyLinkedList<E> implements Iterable<E>, Serializable {
     /* If the list contains an item that is referentially equal to the specified item returns false. Otherwise, adds
      * the specified item to the tail of the list and returns true. */
     public boolean addIdentityUnique(E item) {
-        if(identityContains(item)) {
+        if (identityContains(item)) {
             return false;
         } else {
             addLast(item);
@@ -95,7 +95,7 @@ public class SinglyLinkedList<E> implements Iterable<E>, Serializable {
     /* If the list contains an item that is equal to the specified item returns false. Otherwise, adds
      * the specified item to the tail of the list and returns true. */
     public boolean addUnique(E item) {
-        if(contains(item)) {
+        if (contains(item)) {
             return false;
         } else {
             addLast(item);
@@ -116,10 +116,10 @@ public class SinglyLinkedList<E> implements Iterable<E>, Serializable {
 
     /* Removes and returns the first item in the list. Throws a NoSuchElementException if the list is empty. */
     public E pop() {
-        if(head == null) {
+        if (head == null) {
             // The list is empty
             throw new NoSuchElementException();
-        } else if(head == tail) {
+        } else if (head == tail) {
             // The list was of size one
             E item = head.item;
             head = tail = null;
@@ -135,7 +135,7 @@ public class SinglyLinkedList<E> implements Iterable<E>, Serializable {
 
     /* Returns the first item in the list. Throws a NoSuchElementException if the list is empty. */
     public E peek() {
-        if(head == null) {
+        if (head == null) {
             // The list is empty
             throw new NoSuchElementException();
         } else {
@@ -167,7 +167,7 @@ public class SinglyLinkedList<E> implements Iterable<E>, Serializable {
     public Object[] toArray() {
         Object[] arr = new Object[size];
         Node<E> cur = head;
-        for(int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             arr[i] = cur.item;
             cur = cur.next;
         }
@@ -177,11 +177,11 @@ public class SinglyLinkedList<E> implements Iterable<E>, Serializable {
     /* Returns an array containing the elements of this list. The runtime type of the returned array is that of the specified array. */
     @SuppressWarnings("unchecked")
     public E[] toArray(E[] arr) {
-        if(arr.length < size) {
+        if (arr.length < size) {
             arr = (E[]) Array.newInstance(arr.getClass().getComponentType(), size);
         }
         Node<E> cur = head;
-        for(int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             arr[i] = cur.item;
             cur = cur.next;
         }
@@ -191,7 +191,7 @@ public class SinglyLinkedList<E> implements Iterable<E>, Serializable {
     /* Returns a shallow copy of the list. */
     public SinglyLinkedList<E> copy() {
         SinglyLinkedList<E> copy = new SinglyLinkedList<>();
-        for(Node<E> cur = head; cur != null; cur = cur.next) {
+        for (Node<E> cur = head; cur != null; cur = cur.next) {
             copy.addLast(cur.item);
         }
         return copy;
@@ -200,9 +200,9 @@ public class SinglyLinkedList<E> implements Iterable<E>, Serializable {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder("[");
-        for(Node<E> cur = head; cur != null; cur = cur.next) {
+        for (Node<E> cur = head; cur != null; cur = cur.next) {
             builder.append(cur.item);
-            if(cur.next != null) {
+            if (cur.next != null) {
                 builder.append(", ");
             }
         }
@@ -211,17 +211,17 @@ public class SinglyLinkedList<E> implements Iterable<E>, Serializable {
 
     @Override
     public boolean equals(Object other) {
-        if(this == other) {
+        if (this == other) {
             return true;
-        } else if(other == null || getClass() != other.getClass()) {
+        } else if (other == null || getClass() != other.getClass()) {
             return false;
         } else {
             SinglyLinkedList otherList = (SinglyLinkedList) other;
-            if(this.size != otherList.size) {
+            if (this.size != otherList.size) {
                 return false;
             }
-            for(Node cur1 = this.head, cur2 = otherList.head; cur1 != null && cur2 != null; cur1 = cur1.next, cur2 =cur2.next) {
-                if((cur1.item != cur2.item) && (cur1.item == null || !cur1.item.equals(cur2.item))) {
+            for (Node cur1 = this.head, cur2 = otherList.head; cur1 != null && cur2 != null; cur1 = cur1.next, cur2 = cur2.next) {
+                if ((cur1.item != cur2.item) && (cur1.item == null || !cur1.item.equals(cur2.item))) {
                     return false;
                 }
             }
@@ -232,7 +232,7 @@ public class SinglyLinkedList<E> implements Iterable<E>, Serializable {
     @Override
     public int hashCode() {
         int result = 1;
-        for(Node cur = head; cur != null; cur = cur.next) {
+        for (Node cur = head; cur != null; cur = cur.next) {
             result = 31 * result + (cur.item == null ? 0 : cur.item.hashCode());
         }
         return result;
@@ -280,12 +280,12 @@ public class SinglyLinkedList<E> implements Iterable<E>, Serializable {
 
         @Override
         public E next() {
-            if(current == null) {
+            if (current == null) {
                 throw new NoSuchElementException();
             } else {
-                if(prev == null && current != head) {
+                if (prev == null && current != head) {
                     prev = head;
-                } else if(prev != null) {
+                } else if (prev != null) {
                     prev = prev.next;
                 }
                 E item = current.item;
@@ -296,13 +296,13 @@ public class SinglyLinkedList<E> implements Iterable<E>, Serializable {
 
         @Override
         public void remove() {
-            if(prev == null && current == head) {
+            if (prev == null && current == head) {
                 // No items have been returned yet
                 throw new IllegalStateException();
-            } else if(prev == null) {
+            } else if (prev == null) {
                 // Removing the head
                 pop();
-            } else if(current == null) {
+            } else if (current == null) {
                 // Removing the tail
                 tail = prev;
                 prev.next = null;

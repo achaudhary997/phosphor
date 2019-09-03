@@ -17,7 +17,7 @@ public abstract class PhosphorBaseTransformer implements ClassFileTransformer {
     @SuppressWarnings("unused")
     public LazyByteArrayObjTags transform$$PHOSPHORTAGGED(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, LazyByteArrayObjTags classtaint,
                                                           byte[] classfileBuffer) throws IllegalClassFormatException {
-        if(!INITED) {
+        if (!INITED) {
             Configuration.IMPLICIT_TRACKING = false;
             Configuration.MULTI_TAINTING = true;
             Configuration.init();
@@ -29,7 +29,7 @@ public abstract class PhosphorBaseTransformer implements ClassFileTransformer {
     @SuppressWarnings("unused")
     public LazyByteArrayObjTags transform$$PHOSPHORTAGGED(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, LazyByteArrayObjTags classtaint,
                                                           byte[] classfileBuffer, ControlTaintTagStack ctrl) throws IllegalClassFormatException {
-        if(!INITED) {
+        if (!INITED) {
             Configuration.IMPLICIT_TRACKING = true;
             Configuration.MULTI_TAINTING = true;
             Configuration.init();
@@ -41,7 +41,7 @@ public abstract class PhosphorBaseTransformer implements ClassFileTransformer {
     @SuppressWarnings("unused")
     public LazyByteArrayIntTags transform$$PHOSPHORTAGGED(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, LazyByteArrayIntTags classtaint,
                                                           byte[] classfileBuffer) throws IllegalClassFormatException {
-        if(!INITED) {
+        if (!INITED) {
             Configuration.IMPLICIT_TRACKING = false;
             Configuration.MULTI_TAINTING = false;
             Configuration.init();
@@ -51,7 +51,7 @@ public abstract class PhosphorBaseTransformer implements ClassFileTransformer {
     }
 
     private byte[] signalAndTransform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
-        if(className != null && className.startsWith("sun") && !className.startsWith("sun/nio")) {
+        if (className != null && className.startsWith("sun") && !className.startsWith("sun/nio")) {
             // Avoid instrumenting dynamically generated accessors for reflection
             return classfileBuffer;
         }

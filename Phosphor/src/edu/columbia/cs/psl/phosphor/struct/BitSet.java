@@ -57,14 +57,14 @@ public class BitSet {
 
     /* Adds all of the elements in the specified other set to this set. */
     public void union(BitSet other) {
-        if(other != null && other.packets.length > this.packets.length) {
+        if (other != null && other.packets.length > this.packets.length) {
             long[] temp = this.packets;
             this.packets = other.packets.clone();
-            for(int i = 0; i < temp.length; i++) {
+            for (int i = 0; i < temp.length; i++) {
                 this.packets[i] |= temp[i];
             }
-        } else if(other != null) {
-            for(int i = 0; i < other.packets.length; i++) {
+        } else if (other != null) {
+            for (int i = 0; i < other.packets.length; i++) {
                 this.packets[i] |= other.packets[i];
             }
         }
@@ -72,8 +72,8 @@ public class BitSet {
 
     /* Returns true is none of the bits in the set are set to 1. */
     public boolean isEmpty() {
-        for(long packet : packets) {
-            if(packet != 0) {
+        for (long packet : packets) {
+            if (packet != 0) {
                 return false;
             }
         }
@@ -82,23 +82,23 @@ public class BitSet {
 
     /* Returns whether this set is a superset of the specified other set. */
     public boolean isSuperset(BitSet other) {
-        if(other == null) {
+        if (other == null) {
             return true;
-        } else if(this.packets.length >= other.packets.length) {
-            for(int i = 0; i < other.packets.length; i++) {
-                if((this.packets[i] | other.packets[i]) != this.packets[i]) {
+        } else if (this.packets.length >= other.packets.length) {
+            for (int i = 0; i < other.packets.length; i++) {
+                if ((this.packets[i] | other.packets[i]) != this.packets[i]) {
                     return false;
                 }
             }
             return true;
         } else {
-            for(int i = 0; i < this.packets.length; i++) {
-                if((this.packets[i] | other.packets[i]) != this.packets[i]) {
+            for (int i = 0; i < this.packets.length; i++) {
+                if ((this.packets[i] | other.packets[i]) != this.packets[i]) {
                     return false;
                 }
             }
-            for(int i = this.packets.length; i < other.packets.length; i++) {
-                if(other.packets[i] != 0) {
+            for (int i = this.packets.length; i < other.packets.length; i++) {
+                if (other.packets[i] != 0) {
                     return false;
                 }
             }
@@ -109,11 +109,11 @@ public class BitSet {
     /* Returns a list containing the bit indices in this set that are set to one. */
     public SinglyLinkedList<Integer> toList() {
         SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-        for(int i = 0; i < packets.length; i++) {
+        for (int i = 0; i < packets.length; i++) {
             int packetOffset = i * BITS_PER_PACKET;
             int shifts = 0;
-            for(long packetValue = packets[i]; packetValue != 0; packetValue = packetValue >>> 1) {
-                if((packetValue & 1) != 0) {
+            for (long packetValue = packets[i]; packetValue != 0; packetValue = packetValue >>> 1) {
+                if ((packetValue & 1) != 0) {
                     list.enqueue(packetOffset + shifts);
                 }
                 shifts++;
@@ -124,17 +124,17 @@ public class BitSet {
 
     @Override
     public boolean equals(Object obj) {
-        if(this == obj) {
+        if (this == obj) {
             return true;
-        } else if(!(obj instanceof BitSet)) {
+        } else if (!(obj instanceof BitSet)) {
             return false;
         } else {
-            BitSet bitSet = (BitSet)obj;
-            if(bitSet.packets.length != packets.length) {
+            BitSet bitSet = (BitSet) obj;
+            if (bitSet.packets.length != packets.length) {
                 return false;
             }
-            for(int i = 0; i < packets.length; i++) {
-                if(bitSet.packets[i] != packets[i]) {
+            for (int i = 0; i < packets.length; i++) {
+                if (bitSet.packets[i] != packets[i]) {
                     return false;
                 }
             }
@@ -146,7 +146,7 @@ public class BitSet {
     public int hashCode() {
         int result = 1;
         for (long packet : packets) {
-            int packetHash = (int)(packet ^ (packet >>> 32));
+            int packetHash = (int) (packet ^ (packet >>> 32));
             result = 31 * result + packetHash;
         }
         return result;
@@ -154,13 +154,13 @@ public class BitSet {
 
     /* Returns a new BitSet that represents the union of the specified sets or null if both sets are null. */
     public static BitSet union(BitSet set1, BitSet set2) {
-        if(set1 == null && set2 == null) {
+        if (set1 == null && set2 == null) {
             return null;
-        } else if(set1 == null) {
+        } else if (set1 == null) {
             return set2.copy();
-        } else if(set2 == null) {
+        } else if (set2 == null) {
             return set1.copy();
-        } else if(set1.packets.length > set2.packets.length) {
+        } else if (set1.packets.length > set2.packets.length) {
             BitSet result = new BitSet(set1);
             result.union(set2);
             return result;

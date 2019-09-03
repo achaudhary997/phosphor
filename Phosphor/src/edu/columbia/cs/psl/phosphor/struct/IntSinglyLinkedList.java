@@ -29,11 +29,11 @@ public class IntSinglyLinkedList implements Serializable, Iterable<Integer> {
 
     /* Returns whether the list contains an item that is equal to the specified item. */
     public boolean contains(int item) {
-        if(head == null) {
+        if (head == null) {
             return false;
         } else {
-            for(IntNode cur = head; cur != null; cur = cur.next) {
-                if(cur.item == item) {
+            for (IntNode cur = head; cur != null; cur = cur.next) {
+                if (cur.item == item) {
                     return true;
                 }
             }
@@ -45,7 +45,7 @@ public class IntSinglyLinkedList implements Serializable, Iterable<Integer> {
     public void addLast(int item) {
         IntNode n = new IntNode(item);
         size++;
-        if(tail == null) {
+        if (tail == null) {
             // The list was empty
             head = tail = n;
         } else {
@@ -58,7 +58,7 @@ public class IntSinglyLinkedList implements Serializable, Iterable<Integer> {
     public void addFirst(int item) {
         IntNode n = new IntNode(item, head);
         size++;
-        if(head == null) {
+        if (head == null) {
             // The list was empty
             head = tail = n;
         } else {
@@ -79,7 +79,7 @@ public class IntSinglyLinkedList implements Serializable, Iterable<Integer> {
 
     /* Removes and returns the first item in the list. Throws a NoSuchElementException if the list is empty. */
     public int pop() {
-        if(head == null) {
+        if (head == null) {
             // The list is empty
             throw new NoSuchElementException();
         } else {
@@ -92,7 +92,7 @@ public class IntSinglyLinkedList implements Serializable, Iterable<Integer> {
 
     /* Returns the first item in the list. Throws a NoSuchElementException if the list is empty. */
     public int peek() {
-        if(head == null) {
+        if (head == null) {
             // The list is empty
             throw new NoSuchElementException();
         } else {
@@ -124,7 +124,7 @@ public class IntSinglyLinkedList implements Serializable, Iterable<Integer> {
     public int[] toArray() {
         int[] arr = new int[size];
         IntNode cur = head;
-        for(int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             arr[i] = cur.item;
             cur = cur.next;
         }
@@ -135,7 +135,7 @@ public class IntSinglyLinkedList implements Serializable, Iterable<Integer> {
     public Integer[] toObjArray() {
         Integer[] arr = new Integer[size];
         IntNode cur = head;
-        for(int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             arr[i] = cur.item;
             cur = cur.next;
         }
@@ -145,9 +145,9 @@ public class IntSinglyLinkedList implements Serializable, Iterable<Integer> {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder("[");
-        for(IntNode cur = head; cur != null; cur = cur.next) {
+        for (IntNode cur = head; cur != null; cur = cur.next) {
             builder.append(cur.item);
-            if(cur.next != null) {
+            if (cur.next != null) {
                 builder.append(", ");
             }
         }
@@ -156,17 +156,17 @@ public class IntSinglyLinkedList implements Serializable, Iterable<Integer> {
 
     @Override
     public boolean equals(Object other) {
-        if(this == other) {
+        if (this == other) {
             return true;
-        } else if(other == null || getClass() != other.getClass()) {
+        } else if (other == null || getClass() != other.getClass()) {
             return false;
         } else {
             IntSinglyLinkedList otherList = (IntSinglyLinkedList) other;
-            if(this.size != otherList.size) {
+            if (this.size != otherList.size) {
                 return false;
             }
-            for(IntNode cur1 = this.head, cur2 = otherList.head; cur1 != null && cur2 != null; cur1 = cur1.next, cur2 =cur2.next) {
-                if(cur1.item != cur2.item) {
+            for (IntNode cur1 = this.head, cur2 = otherList.head; cur1 != null && cur2 != null; cur1 = cur1.next, cur2 = cur2.next) {
+                if (cur1.item != cur2.item) {
                     return false;
                 }
             }
@@ -177,7 +177,7 @@ public class IntSinglyLinkedList implements Serializable, Iterable<Integer> {
     @Override
     public int hashCode() {
         int result = 1;
-        for(IntNode cur = head; cur != null; cur = cur.next) {
+        for (IntNode cur = head; cur != null; cur = cur.next) {
             result = 31 * result + cur.item;
         }
         return result;
@@ -230,13 +230,13 @@ public class IntSinglyLinkedList implements Serializable, Iterable<Integer> {
 
         @Override
         public void remove() {
-            if(prev == null && current == head) {
+            if (prev == null && current == head) {
                 // No items have been returned yet
                 throw new IllegalStateException();
-            } else if(prev == null) {
+            } else if (prev == null) {
                 // Removing the head
                 pop();
-            } else if(current == null) {
+            } else if (current == null) {
                 // Removing the tail
                 tail = prev;
                 prev.next = null;
@@ -250,12 +250,12 @@ public class IntSinglyLinkedList implements Serializable, Iterable<Integer> {
 
         /* Returns the next int in the list without boxing it. */
         public int nextInt() {
-            if(current == null) {
+            if (current == null) {
                 throw new NoSuchElementException();
             } else {
-                if(prev == null && current != head) {
+                if (prev == null && current != head) {
                     prev = head;
-                } else if(prev != null) {
+                } else if (prev != null) {
                     prev = prev.next;
                 }
                 int item = current.item;

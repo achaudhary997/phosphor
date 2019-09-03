@@ -18,7 +18,7 @@ public class EclipseCompilerCV extends ClassVisitor {
     @Override
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
         MethodVisitor mv = super.visitMethod(access, name, desc, signature, exceptions);
-        if(name.equals("<init>")) {
+        if (name.equals("<init>")) {
             // Visiting an instance initialization method for ECJ's compiler class
             mv = new ECJInitMV(mv, desc);
         }
@@ -30,15 +30,15 @@ public class EclipseCompilerCV extends ClassVisitor {
 
         ECJInitMV(MethodVisitor mv, String desc) {
             super(Configuration.ASM_VERSION, mv);
-            this.args =  Type.getArgumentTypes(desc);
+            this.args = Type.getArgumentTypes(desc);
         }
 
         @Override
         public void visitCode() {
             super.visitCode();
             int idx = 1; // Start at 1 to skip over the "this" argument
-            for(Type arg : args) {
-                if(arg.getInternalName().equals("org/eclipse/jdt/internal/compiler/IErrorHandlingPolicy")) {
+            for (Type arg : args) {
+                if (arg.getInternalName().equals("org/eclipse/jdt/internal/compiler/IErrorHandlingPolicy")) {
                     // Make the replacement policy
                     super.visitMethodInsn(Opcodes.INVOKESTATIC, "org/eclipse/jdt/internal/compiler/DefaultErrorHandlingPolicies", "ignoreAllProblems", "()Lorg/eclipse/jdt/internal/compiler/IErrorHandlingPolicy;", false);
                     // Store the replacement policy into the old policy's local variable

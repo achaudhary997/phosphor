@@ -6,81 +6,81 @@ import java.io.ObjectOutputStream;
 
 public final class LazyByteArrayIntTags extends LazyArrayIntTags {
 
-	private static final long serialVersionUID = 2765977210252782974L;
+    private static final long serialVersionUID = 2765977210252782974L;
 
-	public byte[] val;
-	
-	public LazyByteArrayIntTags(int len) {
-		val = new byte[len];
-	}
-	
-	public LazyByteArrayIntTags(byte[] array, int[] taints) {
-		this.taints = taints;
-		this.val = array;
-	}
+    public byte[] val;
 
-	public LazyByteArrayIntTags(byte[] array) {
-		this.val = array;
-	}
+    public LazyByteArrayIntTags(int len) {
+        val = new byte[len];
+    }
 
-	@Override
-	public Object clone() {
-		return new LazyByteArrayIntTags(val.clone(), (taints != null) ? taints.clone() : null);
-	}
+    public LazyByteArrayIntTags(byte[] array, int[] taints) {
+        this.taints = taints;
+        this.val = array;
+    }
 
-	public void set(byte[] b, int idx, int tag, byte val) {
-		this.val[idx] = val;
-		if(taints == null && tag != 0) {
-			taints = new int[this.val.length];
-		}
-		if(taints != null) {
-			taints[idx] = tag;
-		}
-	}
+    public LazyByteArrayIntTags(byte[] array) {
+        this.val = array;
+    }
 
-	public TaintedByteWithIntTag get(byte[] b, int idx, TaintedByteWithIntTag ret) {
-		ret.val = val[idx];
-		ret.taint = (taints == null) ? 0 : taints[idx];
-		return ret;
-	}
+    @Override
+    public Object clone() {
+        return new LazyByteArrayIntTags(val.clone(), (taints != null) ? taints.clone() : null);
+    }
 
-	public int getLength() {
-		return val.length;
-	}
+    public void set(byte[] b, int idx, int tag, byte val) {
+        this.val[idx] = val;
+        if (taints == null && tag != 0) {
+            taints = new int[this.val.length];
+        }
+        if (taints != null) {
+            taints[idx] = tag;
+        }
+    }
 
-	@Override
-	public Object getVal() {
-		return val;
-	}
+    public TaintedByteWithIntTag get(byte[] b, int idx, TaintedByteWithIntTag ret) {
+        ret.val = val[idx];
+        ret.taint = (taints == null) ? 0 : taints[idx];
+        return ret;
+    }
 
-	public void ensureVal(byte[] v) {
-		if(v != val) {
-			val = v;
-		}
-	}
+    public int getLength() {
+        return val.length;
+    }
 
-	private void writeObject(ObjectOutputStream stream) throws IOException {
-		if(val == null) {
-			stream.writeInt(-1);
-		} else {
-			stream.writeInt(val.length);
-			for(byte el : val) {
-				stream.writeByte(el);
-			}
-		}
-		stream.writeObject(taints);
-	}
+    @Override
+    public Object getVal() {
+        return val;
+    }
 
-	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
-		int len = stream.readInt();
-		if(len == -1) {
-			val = null;
-		} else {
-			val = new byte[len];
-			for(int i = 0; i < len; i++) {
-				val[i] = stream.readByte();
-			}
-		}
-		taints = (int[]) stream.readObject();
-	}
+    public void ensureVal(byte[] v) {
+        if (v != val) {
+            val = v;
+        }
+    }
+
+    private void writeObject(ObjectOutputStream stream) throws IOException {
+        if (val == null) {
+            stream.writeInt(-1);
+        } else {
+            stream.writeInt(val.length);
+            for (byte el : val) {
+                stream.writeByte(el);
+            }
+        }
+        stream.writeObject(taints);
+    }
+
+    private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+        int len = stream.readInt();
+        if (len == -1) {
+            val = null;
+        } else {
+            val = new byte[len];
+            for (int i = 0; i < len; i++) {
+                val[i] = stream.readByte();
+            }
+        }
+        taints = (int[]) stream.readObject();
+    }
 }

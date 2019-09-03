@@ -1,11 +1,14 @@
 package edu.columbia.cs.psl.phosphor.instrumenter;
 
-import edu.columbia.cs.psl.phosphor.*;
+import edu.columbia.cs.psl.phosphor.BasicSourceSinkManager;
+import edu.columbia.cs.psl.phosphor.Configuration;
+import edu.columbia.cs.psl.phosphor.SourceSinkManager;
+import edu.columbia.cs.psl.phosphor.TaintUtils;
 import edu.columbia.cs.psl.phosphor.runtime.TaintSourceWrapper;
 import org.objectweb.asm.Label;
-import org.objectweb.asm.commons.AdviceAdapter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
+import org.objectweb.asm.commons.AdviceAdapter;
 
 public class SinkTaintingMV extends AdviceAdapter {
 
@@ -34,8 +37,8 @@ public class SinkTaintingMV extends AdviceAdapter {
         this.isStatic = (access & ACC_STATIC) != 0;
         this.startLabel = new Label();
         this.endLabel = new Label();
-        if(this.args.length > 0) {
-            Type lastArg = this.args[this.args.length-1];
+        if (this.args.length > 0) {
+            Type lastArg = this.args[this.args.length - 1];
             this.skipLastParam = TaintUtils.isTaintSentinel(lastArg) ||
                     (lastArg.equals(Type.getReturnType(desc)) && TaintUtils.isTaintedPrimitiveType(lastArg));
         } else {
@@ -62,7 +65,7 @@ public class SinkTaintingMV extends AdviceAdapter {
         super.visitVarInsn(ALOAD, idx);
         // Store the argument into the array
         super.visitInsn(AASTORE);
- }
+    }
 
     /* Adds code to wrap an taint tag argument with its primitive and add the wrapped object to the object array at the specified
      * index. */
@@ -75,14 +78,14 @@ public class SinkTaintingMV extends AdviceAdapter {
         Type containerType = TaintUtils.getContainerReturnType(primitiveType);
         super.visitTypeInsn(NEW, containerType.getInternalName());
         super.visitInsn(DUP);
-        if(Configuration.MULTI_TAINTING) {
+        if (Configuration.MULTI_TAINTING) {
             super.visitVarInsn(ALOAD, tagIdx);
         } else {
             super.visitVarInsn(ILOAD, tagIdx);
         }
         super.visitVarInsn(primitiveType.getOpcode(ILOAD), primitiveIdx);
-        super.visitMethodInsn(INVOKESPECIAL, containerType.getInternalName(), "<init>", "("+Configuration.TAINT_TAG_DESC+
-                primitiveType.getDescriptor()+")V", false);
+        super.visitMethodInsn(INVOKESPECIAL, containerType.getInternalName(), "<init>", "(" + Configuration.TAINT_TAG_DESC +
+                primitiveType.getDescriptor() + ")V", false);
         // Store the wrapped value into the array
         super.visitInsn(AASTORE);
     }
@@ -90,13 +93,13 @@ public class SinkTaintingMV extends AdviceAdapter {
     /* Adds the code to create an appropriately sized array for all of the objects that need to be checked for taint tags. */
     private void initializeArgumentArray() {
         int count = skipLastParam ? -1 : 0; // Subtract one if skipping a param
-        for(int i = 0; i < args.length; i++) {
-            if(args[i].getDescriptor().equals(Configuration.TAINT_TAG_DESC)) {
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].getDescriptor().equals(Configuration.TAINT_TAG_DESC)) {
                 // Argument is a taint tag
                 count++;
                 // Skip the next arg - it is the primitive whose taint tag was just counted
                 i++;
-            } else if(args[i].getSort() == Type.OBJECT || (args[i].getSort() == Type.ARRAY && args[i].getElementType().getSort() == Type.OBJECT)) {
+            } else if (args[i].getSort() == Type.OBJECT || (args[i].getSort() == Type.ARRAY && args[i].getElementType().getSort() == Type.OBJECT)) {
                 count++;
             }
         }
@@ -112,7 +115,7 @@ public class SinkTaintingMV extends AdviceAdapter {
         // Add the auto-tainter to the stack
         super.visitFieldInsn(GETSTATIC, Type.getInternalName(Configuration.class), "autoTainter", Type.getDescriptor(TaintSourceWrapper.class));
         // Load this onto the stack for non-static methods or null for static methods
-        if(isStatic) {
+        if (isStatic) {
             super.visitInsn(ACONST_NULL);
         } else {
             loadThis();
@@ -123,13 +126,13 @@ public class SinkTaintingMV extends AdviceAdapter {
         // Added objects that need to be checked to the array
         int idx = isStatic ? 0 : 1; // Start the arguments array after "this" argument for non-static methods
         for (int i = 0; i < (skipLastParam ? args.length - 1 : args.length); i++) {
-            if(args[i].getDescriptor().equals(Configuration.TAINT_TAG_DESC) && (i+1 < args.length)) {
+            if (args[i].getDescriptor().equals(Configuration.TAINT_TAG_DESC) && (i + 1 < args.length)) {
                 // The argument is a taint tag
-                addWrappedPrimitive(arrayIdx++, idx, idx + args[i].getSize(), args[i+1]);
+                addWrappedPrimitive(arrayIdx++, idx, idx + args[i].getSize(), args[i + 1]);
                 // Skip the primitive associated with this taint tag
                 idx += args[i].getSize();
                 i++;
-            } else if(args[i].getSort() == Type.OBJECT ||(args[i].getSort() == Type.ARRAY && args[i].getElementType().getSort() == Type.OBJECT)) {
+            } else if (args[i].getSort() == Type.OBJECT || (args[i].getSort() == Type.ARRAY && args[i].getElementType().getSort() == Type.OBJECT)) {
                 // Argument is an object or an array of objects (possibly wrapped primitive array objects)
                 addObject(arrayIdx++, idx);
             }
@@ -141,7 +144,7 @@ public class SinkTaintingMV extends AdviceAdapter {
         // Call checkTaint
         super.visitMethodInsn(INVOKEVIRTUAL, Type.getInternalName(TaintSourceWrapper.class), "checkTaint", "(Ljava/lang/Object;[Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;)V", false);
         // If there are no other exception handlers for this method begin the try-finally block around the sink
-        if(numberOfRemainingTryCatchBlocks == 0) {
+        if (numberOfRemainingTryCatchBlocks == 0) {
             addTryCatchBlockHeader();
         }
     }
@@ -156,7 +159,7 @@ public class SinkTaintingMV extends AdviceAdapter {
     @Override
     public void visitMaxs(int maxStack, int maxLocals) {
         super.mark(endLabel); // Ends try block and starts finally block
-        super.visitFrame(F_NEW, 0, new Object[0], 1, new Object[] {"java/lang/Throwable"});
+        super.visitFrame(F_NEW, 0, new Object[0], 1, new Object[]{"java/lang/Throwable"});
         super.visitVarInsn(ASTORE, 1); // Push the throwable that was thrown onto the stack
         callExitingSink();
         super.visitVarInsn(ALOAD, 1); // Pop the throwable that was thrown off the stack
@@ -176,7 +179,7 @@ public class SinkTaintingMV extends AdviceAdapter {
     public void visitTryCatchBlock(Label start, Label end, Label handler, String type) {
         super.visitTryCatchBlock(start, end, handler, type);
         this.numberOfRemainingTryCatchBlocks--;
-        if(this.numberOfRemainingTryCatchBlocks == 0){
+        if (this.numberOfRemainingTryCatchBlocks == 0) {
             addTryCatchBlockHeader();
         }
     }

@@ -29,11 +29,11 @@ public class OgnlUtilCV extends ClassVisitor {
 
         @Override
         public void visitFieldInsn(int opcode, String owner, String name, String desc) {
-            if(isOgnlUtilClass(owner) && name.equals(targetFieldName)) {
-                if(opcode == Opcodes.GETFIELD) {
+            if (isOgnlUtilClass(owner) && name.equals(targetFieldName)) {
+                if (opcode == Opcodes.GETFIELD) {
                     super.visitInsn(Opcodes.POP);
                     super.visitInsn(Opcodes.ICONST_0);
-                } else if(opcode == Opcodes.GETSTATIC) {
+                } else if (opcode == Opcodes.GETSTATIC) {
                     super.visitInsn(Opcodes.ICONST_0);
                 }
             } else {

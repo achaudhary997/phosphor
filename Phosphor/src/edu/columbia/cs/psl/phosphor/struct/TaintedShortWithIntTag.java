@@ -4,37 +4,38 @@ import java.io.IOException;
 import java.io.Serializable;
 
 public final class TaintedShortWithIntTag extends TaintedPrimitiveWithIntTag implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 719385575251672639L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 719385575251672639L;
 
-	private void writeObject(java.io.ObjectOutputStream stream) throws IOException {
-		stream.writeShort(val);
-		stream.writeInt(taint);
-	}
+    private void writeObject(java.io.ObjectOutputStream stream) throws IOException {
+        stream.writeShort(val);
+        stream.writeInt(taint);
+    }
 
-	private void readObject(java.io.ObjectInputStream stream) throws IOException, ClassNotFoundException {
-		val = stream.readShort();
-		taint = stream.readInt();
-	}
-	@Override
-	public Object getValue() {
-		return val;
-	}
+    private void readObject(java.io.ObjectInputStream stream) throws IOException, ClassNotFoundException {
+        val = stream.readShort();
+        taint = stream.readInt();
+    }
 
-	public short val;
+    @Override
+    public Object getValue() {
+        return val;
+    }
 
-	public static final TaintedShortWithIntTag valueOf(int taint, short val) {
-		return new TaintedShortWithIntTag(taint, val);
-	}
+    public short val;
 
-	public TaintedShortWithIntTag(int taint, short val) {
-		this.taint = taint;
-		this.val = val;
-	}
+    public static final TaintedShortWithIntTag valueOf(int taint, short val) {
+        return new TaintedShortWithIntTag(taint, val);
+    }
 
-	public TaintedShortWithIntTag() {
-		// TODO Auto-generated constructor stub
-	}
+    public TaintedShortWithIntTag(int taint, short val) {
+        this.taint = taint;
+        this.val = val;
+    }
+
+    public TaintedShortWithIntTag() {
+        // TODO Auto-generated constructor stub
+    }
 }

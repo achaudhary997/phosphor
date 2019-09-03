@@ -26,7 +26,7 @@ public class JettyBufferUtilCV extends ClassVisitor implements Opcodes {
 
         @Override
         public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
-            if(opcode == INVOKESTATIC && owner.equals("java/nio/ByteBuffer") && name.equals("allocateDirect") && desc.equals("(I)Ljava/nio/ByteBuffer;")) {
+            if (opcode == INVOKESTATIC && owner.equals("java/nio/ByteBuffer") && name.equals("allocateDirect") && desc.equals("(I)Ljava/nio/ByteBuffer;")) {
                 super.visitMethodInsn(opcode, owner, "allocate", desc, itf);
             } else {
                 super.visitMethodInsn(opcode, owner, name, desc, itf);

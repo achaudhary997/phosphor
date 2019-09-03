@@ -45,19 +45,19 @@ public class IntPowerSetTree {
         /* Adds a new entry to this node's map of child nodes for the specified key if one does not already exist.
          * Returns the child node for the specified key. */
         private SetNode addChild(int childKey) {
-            synchronized(this) {
-                if(children == null) {
+            synchronized (this) {
+                if (children == null) {
                     // Initialize the child map
                     children = new IntObjectAMT<>();
                 }
-                if(!children.contains(childKey)) {
+                if (!children.contains(childKey)) {
                     // There is no entry for child key
                     SetNode node = new SetNode(childKey, this);
                     children.put(childKey, new WeakReference<>(node));
                     return node;
                 } else {
                     SetNode childNode = children.get(childKey).get();
-                    if(childNode != null) {
+                    if (childNode != null) {
                         // There is an existing non-garbage collected entry for the child key
                         return childNode;
                     } else {
@@ -78,20 +78,20 @@ public class IntPowerSetTree {
         /* Returns a node that represents the set union of the set represented by this node with the set represented by
          * the specified other node. Does not change the elements contained by the sets represented by either original node */
         public SetNode union(SetNode other) {
-            if(other == null) {
+            if (other == null) {
                 return this;
             }
             IntSinglyLinkedList mergedList = new IntSinglyLinkedList();
             SetNode cur = this;
             // Maintain a sorted list of objects popped off from the two sets until one set is exhausted
-            while(!cur.isEmpty() && !other.isEmpty()) {
-                if(cur == other) {
+            while (!cur.isEmpty() && !other.isEmpty()) {
+                if (cur == other) {
                     break;
-                } else if(cur.key == other.key) {
+                } else if (cur.key == other.key) {
                     mergedList.push(cur.key);
                     cur = cur.parent;
                     other = other.parent;
-                } else if(cur.key > other.key) {
+                } else if (cur.key > other.key) {
                     mergedList.push(cur.key);
                     cur = cur.parent;
                 } else {
@@ -102,7 +102,7 @@ public class IntPowerSetTree {
             // Find the node for the non-exhausted set
             SetNode result = cur.isEmpty() ? other : cur;
             // Move down the path in the tree for the merged list adding child nodes as necessary
-            while(!mergedList.isEmpty()) {
+            while (!mergedList.isEmpty()) {
                 result = result.addChild(mergedList.pop());
             }
             return result;
@@ -115,11 +115,11 @@ public class IntPowerSetTree {
             SetNode cur = this;
             // Maintain a sorted list of objects popped off from this set until the right place to insert the new element
             // is found
-            while(!cur.isEmpty()) {
-                if(cur.key == element) {
+            while (!cur.isEmpty()) {
+                if (cur.key == element) {
                     // The specified element was already in the list
                     return this;
-                } else if(cur.key > element) {
+                } else if (cur.key > element) {
                     list.push(cur.key);
                     cur = cur.parent;
                 } else {
@@ -129,7 +129,7 @@ public class IntPowerSetTree {
             }
             list.push(element);
             // Move down the path in the tree for the list adding child nodes as necessary
-            while(!list.isEmpty()) {
+            while (!list.isEmpty()) {
                 cur = cur.addChild(list.pop());
             }
             return cur;
@@ -137,8 +137,8 @@ public class IntPowerSetTree {
 
         /* Returns whether the set represented by this node contains the specified element. */
         public boolean contains(int element) {
-            for(SetNode cur = this; !cur.isEmpty(); cur = cur.parent) {
-                if(cur.key == element) {
+            for (SetNode cur = this; !cur.isEmpty(); cur = cur.parent) {
+                if (cur.key == element) {
                     return true;
                 }
             }
@@ -148,20 +148,20 @@ public class IntPowerSetTree {
         /* Returns whether the set represented by this node is a superset of the set represented by the specified other
          * node. */
         public boolean isSuperset(SetNode other) {
-            if(other == null) {
+            if (other == null) {
                 return true;
             }
             SetNode cur = this;
-            while(!other.isEmpty()) {
-                if(cur.isEmpty()) {
+            while (!other.isEmpty()) {
+                if (cur.isEmpty()) {
                     return false;
                 }
-                if(cur == other) {
+                if (cur == other) {
                     return true;
-                } else if(cur.key == other.key) {
+                } else if (cur.key == other.key) {
                     cur = cur.parent;
                     other = other.parent;
-                } else if(cur.key > other.key) {
+                } else if (cur.key > other.key) {
                     cur = cur.parent;
                 } else {
                     return false;
@@ -174,7 +174,7 @@ public class IntPowerSetTree {
         public IntSinglyLinkedList toList() {
             IntSinglyLinkedList list = new IntSinglyLinkedList();
             // Walk to the root adding each visited nodes' key values to the list
-            for(SetNode cur = this; !cur.isEmpty(); cur = cur.parent) {
+            for (SetNode cur = this; !cur.isEmpty(); cur = cur.parent) {
                 list.push(cur.key);
             }
             return list;

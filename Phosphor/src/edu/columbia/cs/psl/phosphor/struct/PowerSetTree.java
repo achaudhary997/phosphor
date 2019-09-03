@@ -38,9 +38,9 @@ public class PowerSetTree {
         // Make all reachable nodes quasi-empty sets
         SinglyLinkedList<SetNode> nodeStack = new SinglyLinkedList<>();
         nodeStack.push(root);
-        while(!nodeStack.isEmpty()) {
+        while (!nodeStack.isEmpty()) {
             SetNode node = nodeStack.pop();
-            for(SetNode child : node.getChildren()) {
+            for (SetNode child : node.getChildren()) {
                 nodeStack.push(child);
             }
             node.empty();
@@ -49,7 +49,7 @@ public class PowerSetTree {
 
     /* If a rank can be reused from the rankQueue, returns that rank. Otherwise returns and increments nextRank. */
     private int getAvailableRank() {
-        if(!rankQueue.isEmpty()) {
+        if (!rankQueue.isEmpty()) {
             // Try to reuse a rank
             return rankQueue.pop();
         } else {
@@ -63,7 +63,7 @@ public class PowerSetTree {
      * object and the rank assigned to objects equal to the specified object. */
     private synchronized RankedObject getRankedObject(Object object) {
         int hash = object.hashCode();
-        if(!rankMap.contains(hash)) {
+        if (!rankMap.contains(hash)) {
             SinglyLinkedList<RankReference> list = new SinglyLinkedList<>();
             rankMap.put(hash, list);
             RankedObject ret = new RankedObject(object, getAvailableRank());
@@ -72,15 +72,15 @@ public class PowerSetTree {
         } else {
             SinglyLinkedList<RankReference> list = rankMap.get(hash);
             Iterator<RankReference> it = list.iterator();
-            while(it.hasNext()) {
+            while (it.hasNext()) {
                 RankReference ref = it.next();
                 RankedObject ro = ref.get();
-                if(ro == null) {
+                if (ro == null) {
                     // Remove reference with garbage collected referent from list
                     it.remove();
                     // Push the rank of the garbage collected object onto the stack so that it can be reused
                     rankQueue.push(ref.rank);
-                } else if(object.equals(ro.object)) {
+                } else if (object.equals(ro.object)) {
                     // Existing rank for the specified object was found
                     return ro;
                 }
@@ -99,7 +99,7 @@ public class PowerSetTree {
 
     /* Returns a node representing the set containing only the specified element. */
     public SetNode makeSingletonSet(Object element) {
-        if(element == null) {
+        if (element == null) {
             // Null elements cannot be added to sets; return the node representing the empty set
             return emptySet();
         }
@@ -130,10 +130,10 @@ public class PowerSetTree {
         /* Returns all non-null child nodes of this node. */
         private synchronized SinglyLinkedList<SetNode> getChildren() {
             SinglyLinkedList<SetNode> list = new SinglyLinkedList<>();
-            if(children != null) {
-                for(WeakReference<SetNode> ref : children.values()) {
+            if (children != null) {
+                for (WeakReference<SetNode> ref : children.values()) {
                     SetNode node = ref.get();
-                    if(node != null) {
+                    if (node != null) {
                         list.enqueue(node);
                     }
                 }
@@ -151,19 +151,19 @@ public class PowerSetTree {
         /* Adds a new entry to this node's map of child nodes for the specified key if one does not already exist.
          * Returns the child node for the specified key. */
         private SetNode addChild(RankedObject childKey) {
-            synchronized(this) {
-                if(children == null) {
+            synchronized (this) {
+                if (children == null) {
                     // Initialize the child map
                     children = new IntObjectAMT<>();
                 }
-                if(!children.contains(childKey.rank)) {
+                if (!children.contains(childKey.rank)) {
                     // There is no entry for child key
                     SetNode node = new SetNode(childKey, this);
                     children.put(childKey.rank, new WeakReference<>(node));
                     return node;
                 } else {
                     SetNode childNode = children.get(childKey.rank).get();
-                    if(childNode != null) {
+                    if (childNode != null) {
                         // There is an existing non-garbage collected entry for the child key
                         return childNode;
                     } else {
@@ -184,7 +184,7 @@ public class PowerSetTree {
         /* Returns a node that represents the set union of the set represented by this node with the set represented by
          * the specified other node. Does not change the elements contained by the sets represented by either original node */
         public SetNode union(SetNode other) {
-            if(other == null) {
+            if (other == null) {
                 return this;
             }
             SinglyLinkedList<RankedObject> mergedList = new SinglyLinkedList<>();
@@ -193,14 +193,14 @@ public class PowerSetTree {
             // If the other set is empty ensure the node representing the empty set is used
             other = other.isEmpty() ? emptySet() : other;
             // Maintain a sorted list of objects popped off from the two sets until one set is exhausted
-            while(!cur.isEmpty() && !other.isEmpty()) {
-                if(cur == other) {
+            while (!cur.isEmpty() && !other.isEmpty()) {
+                if (cur == other) {
                     break;
-                } else if(cur.key.rank == other.key.rank) {
+                } else if (cur.key.rank == other.key.rank) {
                     mergedList.push(cur.key);
                     cur = cur.parent;
                     other = other.parent;
-                } else if(cur.key.rank > other.key.rank) {
+                } else if (cur.key.rank > other.key.rank) {
                     mergedList.push(cur.key);
                     cur = cur.parent;
                 } else {
@@ -211,7 +211,7 @@ public class PowerSetTree {
             // Find the node for the non-exhausted set
             SetNode result = cur.isEmpty() ? other : cur;
             // Move down the path in the tree for the merged list adding child nodes as necessary
-            while(!mergedList.isEmpty()) {
+            while (!mergedList.isEmpty()) {
                 result = result.addChild(mergedList.pop());
             }
             return result;
@@ -220,7 +220,7 @@ public class PowerSetTree {
         /* Return a node representing the set union of the set represented by this node and the singleton set containing
          * the specified element. Does not change the elements contained by the set represented by this node. */
         public SetNode add(Object element) {
-            if(element == null) {
+            if (element == null) {
                 return this;
             }
             RankedObject obj = getRankedObject(element);
@@ -229,11 +229,11 @@ public class PowerSetTree {
             SetNode cur = this.isEmpty() ? emptySet() : this;
             // Maintain a sorted list of objects popped off from this set until the right place to insert the new element
             // is found
-            while(!cur.isEmpty()) {
-                if(cur.key.rank == obj.rank) {
+            while (!cur.isEmpty()) {
+                if (cur.key.rank == obj.rank) {
                     // The specified element was already in the list
                     return this;
-                } else if(cur.key.rank > obj.rank) {
+                } else if (cur.key.rank > obj.rank) {
                     list.push(cur.key);
                     cur = cur.parent;
                 } else {
@@ -243,7 +243,7 @@ public class PowerSetTree {
             }
             list.push(obj);
             // Move down the path in the tree for the list adding child nodes as necessary
-            while(!list.isEmpty()) {
+            while (!list.isEmpty()) {
                 cur = cur.addChild(list.pop());
             }
             return cur;
@@ -251,11 +251,11 @@ public class PowerSetTree {
 
         /* Returns whether the set represented by this node contains the specified element. */
         public boolean contains(Object element) {
-            if(element == null || isEmpty()) {
+            if (element == null || isEmpty()) {
                 return false;
             }
-            for(SetNode cur = this; !cur.isEmpty(); cur = cur.parent) {
-                if(cur.key.object.equals(element)) {
+            for (SetNode cur = this; !cur.isEmpty(); cur = cur.parent) {
+                if (cur.key.object.equals(element)) {
                     return true;
                 }
             }
@@ -265,20 +265,20 @@ public class PowerSetTree {
         /* Returns whether the set represented by this node is a superset of the set represented by the specified other
          * node. */
         public boolean isSuperset(SetNode other) {
-            if(other == null) {
+            if (other == null) {
                 return true;
             }
             SetNode cur = this;
-            while(!other.isEmpty()) {
-                if(cur.isEmpty()) {
+            while (!other.isEmpty()) {
+                if (cur.isEmpty()) {
                     return false;
                 }
-                if(cur == other) {
+                if (cur == other) {
                     return true;
-                } else if(cur.key.rank == other.key.rank) {
+                } else if (cur.key.rank == other.key.rank) {
                     cur = cur.parent;
                     other = other.parent;
-                } else if(cur.key.rank > other.key.rank) {
+                } else if (cur.key.rank > other.key.rank) {
                     cur = cur.parent;
                 } else {
                     return false;
@@ -291,7 +291,7 @@ public class PowerSetTree {
         public SinglyLinkedList<Object> toList() {
             SinglyLinkedList<Object> list = new SinglyLinkedList<>();
             // Walk to the root adding the objects associated with the nodes' key values to the list
-            for(SetNode cur = this; !cur.isEmpty(); cur = cur.parent) {
+            for (SetNode cur = this; !cur.isEmpty(); cur = cur.parent) {
                 list.push(cur.key.object);
             }
             return list;

@@ -13,7 +13,7 @@ public class IntObjectAMT<V> {
     private static final int ARRAY_INIT_SIZE = 4;
     // Used to determine the index of an int in the child array in place of the modulus operation. Since ARRAY_MAX_SIZE
     // is a power of 2, x & (ARRAY_MAX_SIZE -1) == x % ARRAY_MAX_SIZE.
-    private static final int ARRAY_INDEX_MASK =  ARRAY_MAX_SIZE - 1;
+    private static final int ARRAY_INDEX_MASK = ARRAY_MAX_SIZE - 1;
     // Pre-calculated masks used to isolate the bits less than a particularly index for a population count. For example,
     // if trying to determine the number of 1 bits before but index five in some int, x, x & POP_COUNT_MASKS[5] would
     // 0-out bits 31-5, so that only bits 0-4 are potentially set to 1.
@@ -21,7 +21,7 @@ public class IntObjectAMT<V> {
 
     static {
         int x = 0;
-        for(int i = 0; i < POP_COUNT_MASKS.length; i++) {
+        for (int i = 0; i < POP_COUNT_MASKS.length; i++) {
             POP_COUNT_MASKS[i] = x;
             x = x << 1;
             x++;
@@ -65,15 +65,15 @@ public class IntObjectAMT<V> {
     @SuppressWarnings("unchecked")
     public boolean contains(int key) {
         int index = key & ARRAY_INDEX_MASK;
-        if(children == null || (bitSet & (1 << index)) == 0) {
+        if (children == null || (bitSet & (1 << index)) == 0) {
             return false;
         }
         Object child = children[getChildIndex(index)];
         int childKey = key >>> SHIFT_AMOUNT;
-        if(child instanceof IntObjectAMT) {
+        if (child instanceof IntObjectAMT) {
             return ((IntObjectAMT<V>) child).contains(childKey);
         } else {
-            return ((Mapping)child).key == childKey;
+            return ((Mapping) child).key == childKey;
         }
     }
 
@@ -81,15 +81,15 @@ public class IntObjectAMT<V> {
     @SuppressWarnings("unchecked")
     public V get(int key) {
         int index = key & ARRAY_INDEX_MASK;
-        if(children == null || (bitSet & (1 << index)) == 0) {
+        if (children == null || (bitSet & (1 << index)) == 0) {
             return null;
         }
         Object child = children[getChildIndex(index)];
         int childKey = key >>> SHIFT_AMOUNT;
-        if(child instanceof IntObjectAMT) {
+        if (child instanceof IntObjectAMT) {
             return ((IntObjectAMT<V>) child).get(childKey);
         } else {
-            Mapping m = (Mapping)child;
+            Mapping m = (Mapping) child;
             return (m.key == childKey) ? m.value : null;
         }
     }
@@ -101,35 +101,35 @@ public class IntObjectAMT<V> {
         int index = key & ARRAY_INDEX_MASK;
         int childKey = key >>> SHIFT_AMOUNT;
         int childIndex = getChildIndex(index);
-        if(children == null) {
+        if (children == null) {
             // Map has no children
             children = new Object[ARRAY_INIT_SIZE];
             children[childrenSize++] = new Mapping(childKey, value);
             bitSet |= (1 << index);
-        } else if((bitSet & (1 << index)) == 0) {
+        } else if ((bitSet & (1 << index)) == 0) {
             // Map does not have a child for this key
-            if(childrenSize == children.length) {
+            if (childrenSize == children.length) {
                 // Resize the array
-                Object[] temp = new Object[children.length*2];
+                Object[] temp = new Object[children.length * 2];
                 System.arraycopy(children, 0, temp, 0, childrenSize);
                 children = temp;
             }
             // Shift children to make space for new child
-            System.arraycopy(children, childIndex, children, childIndex+1, childrenSize - childIndex);
+            System.arraycopy(children, childIndex, children, childIndex + 1, childrenSize - childIndex);
             children[childIndex] = new Mapping(childKey, value);
             bitSet |= (1 << index);
             childrenSize++;
         } else {
             // Map has a child for this key
             Object child = children[childIndex];
-            if(child instanceof IntObjectAMT) {
+            if (child instanceof IntObjectAMT) {
                 ((IntObjectAMT<V>) child).put(childKey, value);
-            } else if(((Mapping)child).key == childKey) {
+            } else if (((Mapping) child).key == childKey) {
                 // Map contains a mapping for this key, replace its value
-                ((Mapping)child).value = value;
+                ((Mapping) child).value = value;
             } else {
                 // Map contains a mapping where this key should go that is not for this key
-                Mapping m = (Mapping)child;
+                Mapping m = (Mapping) child;
                 IntObjectAMT<V> map = new IntObjectAMT<>();
                 map.put(m.key, m.value);
                 map.put(childKey, value);
@@ -152,22 +152,22 @@ public class IntObjectAMT<V> {
     @SuppressWarnings("unchecked")
     public V remove(int key) {
         int index = key & ARRAY_INDEX_MASK;
-        if(children == null || (bitSet & (1 << index)) == 0) {
+        if (children == null || (bitSet & (1 << index)) == 0) {
             return null;
         }
         int childIndex = getChildIndex(index);
         Object child = children[childIndex];
         int childKey = key >>> SHIFT_AMOUNT;
-        if(child instanceof IntObjectAMT) {
+        if (child instanceof IntObjectAMT) {
             V value = ((IntObjectAMT<V>) child).remove(childKey);
-            if(((IntObjectAMT<V>) child).isEmpty()) {
+            if (((IntObjectAMT<V>) child).isEmpty()) {
                 // Delete the emptied child
                 removeChild(index, childIndex);
             }
             return value;
         } else {
-            Mapping m = (Mapping)child;
-            if(m.key != childKey) {
+            Mapping m = (Mapping) child;
+            if (m.key != childKey) {
                 return null;
             } else {
                 removeChild(index, childIndex);
@@ -180,14 +180,14 @@ public class IntObjectAMT<V> {
     @SuppressWarnings("unchecked")
     public SinglyLinkedList<V> values() {
         SinglyLinkedList<V> ret = new SinglyLinkedList<>();
-        if(!isEmpty()) {
-            for(Object child : children) {
-                if(child instanceof IntObjectAMT) {
-                    for(V value : ((IntObjectAMT<V>)child).values()) {
+        if (!isEmpty()) {
+            for (Object child : children) {
+                if (child instanceof IntObjectAMT) {
+                    for (V value : ((IntObjectAMT<V>) child).values()) {
                         ret.enqueue(value);
                     }
-                } else if(child != null) {
-                    ret.enqueue(((Mapping)child).value);
+                } else if (child != null) {
+                    ret.enqueue(((Mapping) child).value);
                 }
             }
         }
@@ -198,6 +198,7 @@ public class IntObjectAMT<V> {
     private class Mapping {
         int key;
         V value;
+
         Mapping(int key, V value) {
             this.key = key;
             this.value = value;

@@ -41,11 +41,11 @@ public final class LazyLongArrayObjTags extends LazyArrayObjTags {
     }
 
     public void set(long[] l, Taint idxTag, int idx, Taint tag, long val) {
-        if(Configuration.derivedTaintListener != null) {
+        if (Configuration.derivedTaintListener != null) {
             set(l, idx, Configuration.derivedTaintListener.arraySet(this, idxTag, idx, tag, val, null), val);
-        } else if(idxTag == null) {
+        } else if (idxTag == null) {
             set(l, idx, tag, val);
-        } else if(tag == null) {
+        } else if (tag == null) {
             set(l, idx, idxTag, val);
         } else {
             set(l, idx, new Taint(tag, idxTag), val);
@@ -54,10 +54,10 @@ public final class LazyLongArrayObjTags extends LazyArrayObjTags {
 
     public void set(long[] arr, int idx, Taint tag, long val) {
         this.val[idx] = val;
-        if(taints == null && tag != null) {
+        if (taints == null && tag != null) {
             taints = new Taint[this.val.length];
         }
-        if(taints != null) {
+        if (taints != null) {
             taints[idx] = tag;
         }
     }
@@ -104,17 +104,17 @@ public final class LazyLongArrayObjTags extends LazyArrayObjTags {
     }
 
     public void ensureVal(long[] v) {
-        if(v != val) {
+        if (v != val) {
             val = v;
         }
     }
 
     private void writeObject(ObjectOutputStream stream) throws IOException {
-        if(val == null) {
+        if (val == null) {
             stream.writeInt(-1);
         } else {
             stream.writeInt(val.length);
-            for(long el : val) {
+            for (long el : val) {
                 stream.writeLong(el);
             }
         }
@@ -123,11 +123,11 @@ public final class LazyLongArrayObjTags extends LazyArrayObjTags {
 
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
         int len = stream.readInt();
-        if(len == -1) {
+        if (len == -1) {
             val = null;
         } else {
             val = new long[len];
-            for(int i = 0; i < len; i++) {
+            for (int i = 0; i < len; i++) {
                 val[i] = stream.readLong();
             }
         }

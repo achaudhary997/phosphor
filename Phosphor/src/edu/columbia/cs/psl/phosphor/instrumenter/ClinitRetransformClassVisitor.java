@@ -30,9 +30,9 @@ public class ClinitRetransformClassVisitor extends ClassVisitor {
     @Override
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
         MethodVisitor mv = super.visitMethod(access, name, desc, signature, exceptions);
-        if(name.equals("<clinit>")) {
+        if (name.equals("<clinit>")) {
             visitedClassInitializer = true;
-            if(!className.contains("$$Lambda$")) { // Do not add retransform code to  lambdas
+            if (!className.contains("$$Lambda$")) { // Do not add retransform code to  lambdas
                 mv = new ClinitRetransformMV(mv, className, fixLdcClass);
             }
         }
@@ -42,7 +42,7 @@ public class ClinitRetransformClassVisitor extends ClassVisitor {
     /* Checks if the <clinit> method was visited. If it was not visited, makes calls to visit it. */
     @Override
     public void visitEnd() {
-        if(!visitedClassInitializer) {
+        if (!visitedClassInitializer) {
             MethodVisitor mv = visitMethod(Opcodes.ACC_STATIC, "<clinit>", "()V", null, null);
             mv.visitCode();
             mv.visitInsn(Opcodes.RETURN);
