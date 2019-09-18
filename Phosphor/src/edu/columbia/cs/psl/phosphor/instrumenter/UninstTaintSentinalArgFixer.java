@@ -10,26 +10,56 @@ import org.objectweb.asm.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * UninstTaintSentinalArgFixer fixes the indexing when accessing locals in case "taint sentinal" has been added.
+ */
 public class UninstTaintSentinalArgFixer extends MethodVisitor {
+    /**
+     * The index of the last argument (originally)
+     * Depends on: method is static/dynamic
+     */
     int originalLastArgIdx;
+    /**
+     * Unused variable
+     */
     int[] oldArgMappings;
+
+    /**
+     * 1 if name == <init>
+     */
     int newArgOffset;
     boolean isStatic;
     int origNumArgs;
     String name;
     String desc;
     boolean hasTaintSentinalAddedToDesc = false;
+    /**
+     * List of types of old args. Doubles are succeeded by "LTOP;"
+     */
     ArrayList<Type> oldArgTypesList;
     Type[] oldArgTypes;
 
     Type[] firstFrameLocals;
     int idxOfReturnPrealloc;
 
+    /**
+     * unused variable
+     */
     boolean hasPreAllocedReturnAddr;
+
+    /**
+     * unused variable
+     */
     Type newReturnType;
 
+    /**
+     * Similar to oldArgTypesList, but doubles occupy only 1 cell
+     */
     ArrayList<Type> oldTypesDoublesAreOne;
 
+    /**
+     * Initializes the class members
+     */
     public UninstTaintSentinalArgFixer(MethodVisitor mv, int access, String name, String desc, String originalDesc) {
         super(Configuration.ASM_VERSION, mv);
         this.name = name;
@@ -67,8 +97,14 @@ public class UninstTaintSentinalArgFixer extends MethodVisitor {
         return newArgOffset;
     }
 
+    /**
+     * unused variable
+     */
     int nLVTaintsCounted = 0;
 
+    /**
+     * unused variable
+     */
     boolean returnLVVisited = false;
 
     @Override
@@ -86,6 +122,10 @@ public class UninstTaintSentinalArgFixer extends MethodVisitor {
     }
 
     @Override
+    /**
+     * Adjusts the offset of taints by +1 if description has "taint senitel".
+     * Calls super.VisitFrame with updated nLocal, remappedLocals
+     */
     public void visitFrame(int type, int nLocal, Object[] local, int nStack, Object[] stack) {
         Object[] remappedLocals = new Object[local.length + newArgOffset + 1]; //was +1, not sure why??
         if (TaintUtils.DEBUG_FRAMES) {
