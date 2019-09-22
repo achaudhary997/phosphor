@@ -9,7 +9,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 /**
- * Visits the <clint> method to add code to retransform the class on class initialization.
+ * 
  */ 
 public class ClinitRetransformMV extends MethodVisitor {
 
@@ -18,7 +18,12 @@ public class ClinitRetransformMV extends MethodVisitor {
     // Whether or not the version is at least the required version 1.5 for the ldc of a constant class
     private final boolean fixLdcClass;
 
-    //
+    /**
+     * Visits the <clint> method to add code to retransform the class on class initialization.
+     * @param mv
+     * @param className
+     * @param fixLdcClass
+     */
     public ClinitRetransformMV(MethodVisitor mv, String className, boolean fixLdcClass) {
         super(Configuration.ASM_VERSION, mv);
         this.className = className;

@@ -17,6 +17,9 @@ public class ClinitRetransformClassVisitor extends ClassVisitor {
     // Whether or not the version is at least the required version 1.5 for the ldc of a constant class
     private boolean fixLdcClass;
 
+    /**
+     * Visits a Java class modifying the <clint> method to add code to retransform the class on class initialization.
+     */
     public ClinitRetransformClassVisitor(ClassVisitor cv) {
         super(Configuration.ASM_VERSION, cv);
         this.visitedClassInitializer = false;

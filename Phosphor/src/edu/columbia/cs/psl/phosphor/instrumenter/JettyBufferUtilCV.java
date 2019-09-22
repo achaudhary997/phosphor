@@ -5,7 +5,10 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-/* Prevents Jetty's buffer utility class from creating direct buffers. */
+/**
+ * Prevents Jetty's buffer utility class from creating direct buffers. 
+ * Jetty looks lika an eclipse related class.
+ */
 public class JettyBufferUtilCV extends ClassVisitor implements Opcodes {
 
     public JettyBufferUtilCV(ClassVisitor cv) {
@@ -18,12 +21,16 @@ public class JettyBufferUtilCV extends ClassVisitor implements Opcodes {
         return new JettyBufferUtilMV(mv);
     }
 
+
     private static class JettyBufferUtilMV extends MethodVisitor {
 
         JettyBufferUtilMV(MethodVisitor mv) {
             super(Configuration.ASM_VERSION, mv);
         }
 
+        /**
+         * Overrides allocate direct call for allocate ByteBuffer by replacing it with call to allocate.
+         */
         @Override
         public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
             if (opcode == INVOKESTATIC && owner.equals("java/nio/ByteBuffer") && name.equals("allocateDirect") && desc.equals("(I)Ljava/nio/ByteBuffer;")) {
@@ -34,7 +41,11 @@ public class JettyBufferUtilCV extends ClassVisitor implements Opcodes {
         }
     }
 
-    /* Returns whether this class visitor should be applied to the class with the specified name. */
+    /**
+     * Returns whether this class visitor should be applied to the class with the specified name.
+     * @param className
+     * @return
+     */ 
     public static boolean isApplicable(String className) {
         return className != null && className.equals("org/eclipse/jetty/util/BufferUtil");
     }

@@ -6,11 +6,18 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-/* Changes the error handling policies of an instance of the Compiler class used by the Eclipse Compiler for Java, ECJ,
+/**
+ * Changes the error handling policies of an instance of the Compiler class used by the Eclipse Compiler for Java, ECJ,
  * to ignore all problems in the hopes that these issue will be resolved when Phosphor instruments the class compiled
- * class. */
+ * class.
+ */
 public class EclipseCompilerCV extends ClassVisitor {
 
+    /**
+     * Changes the error handling policies of an instance of the Compiler class used by the Eclipse Compiler for Java, ECJ,
+     * to ignore all problems in the hopes that these issue will be resolved when Phosphor instruments the class compiled
+     * class.
+     */
     public EclipseCompilerCV(ClassVisitor cv) {
         super(Configuration.ASM_VERSION, cv);
     }
@@ -49,7 +56,11 @@ public class EclipseCompilerCV extends ClassVisitor {
         }
     }
 
-    /* Returns whether the class with the specified name is ECJ's compiler class. */
+    /**
+     * Returns whether the class with the specified className is ECJ's compiler class.
+     * @param className
+     * @return
+     */
     public static boolean isEclipseCompilerClass(String className) {
         return className != null && className.equals("org/eclipse/jdt/internal/compiler/Compiler");
     }

@@ -56,6 +56,7 @@ public class DataAndControlFlowTagFactory implements TaintTagFactory, Opcodes {
     }
 
     @Override
+    /** Handle the java opcodes manually while taking care of combing tags. Or doing bitwise operation if data flow analysis. */
     public void stackOp(int opcode, MethodVisitor mv, LocalVariableManager lvs, TaintPassingMV adapter) {
         switch (opcode) {
             case Opcodes.FADD:
@@ -75,23 +76,33 @@ public class DataAndControlFlowTagFactory implements TaintTagFactory, Opcodes {
                 mv.visitInsn(opcode);
                 //T T V
                 mv.visitInsn(DUP_X2);
+                //V T T V
                 mv.visitInsn(POP);
+                //V T T
                 if (Configuration.MULTI_TAINTING) {
                     if (Configuration.WITHOUT_PROPOGATION) {
+                        // If not propogating insert null as the tag of new value.
                         mv.visitInsn(POP2);
+                        // V
                         mv.visitInsn(ACONST_NULL);
+                        // V <null>
+                        // Check if object on stack is of type tag.
                         mv.visitTypeInsn(CHECKCAST, Configuration.TAINT_TAG_INTERNAL_NAME);
                     } else {
+                        // Call combine tags to combine the tag.
                         mv.visitMethodInsn(INVOKESTATIC, Configuration.MULTI_TAINT_HANDLER_CLASS, "combineTags", "(" + Configuration.TAINT_TAG_DESC + Configuration.TAINT_TAG_DESC + ")"
                                 + Configuration.TAINT_TAG_DESC, false);
+                        // V T <-- New tag
                     }
                 } else {
+                    // Or the two tag values and push new tag
                     if (Configuration.DATAFLOW_TRACKING)
                         mv.visitInsn(Opcodes.IOR);
                     else
                         mv.visitInsn(Opcodes.POP2);
                 }
                 mv.visitInsn(SWAP);
+                // T V
                 lvs.freeTmpLV(tmp);
                 break;
 
@@ -391,7 +402,7 @@ public class DataAndControlFlowTagFactory implements TaintTagFactory, Opcodes {
             }
             break;
             case Opcodes.FCMPL: {
-                //T V T V
+                //T V T V+
                 tmp = lvs.getTmpLV();
                 mv.visitInsn(TaintUtils.IS_TMP_STORE);
                 mv.visitVarInsn(FSTORE, tmp);
@@ -507,6 +518,9 @@ public class DataAndControlFlowTagFactory implements TaintTagFactory, Opcodes {
 
 
     @Override
+    /**
+     * Handles jump opcodes along with taint if any.
+     */
     public void jumpOp(int opcode, int branchStarting, Label label, MethodVisitor mv, LocalVariableManager lvs, TaintPassingMV ta) {
         if ((Configuration.IMPLICIT_TRACKING || ta.isImplicitLightTracking) && !Configuration.WITHOUT_PROPOGATION) {
             switch (opcode) {
@@ -641,6 +655,9 @@ public class DataAndControlFlowTagFactory implements TaintTagFactory, Opcodes {
     }
 
     @Override
+    /**
+     * Does nothing.
+     */
     public void typeOp(int opcode, String type, MethodVisitor mv, LocalVariableManager lvs, TaintPassingMV ta) {
         switch (opcode) {
             case Opcodes.INSTANCEOF:
@@ -653,6 +670,9 @@ public class DataAndControlFlowTagFactory implements TaintTagFactory, Opcodes {
     }
 
     @Override
+    /**
+     * Handles integer increment opcodes. Hanldes their shadow variables also.
+     */
     public void iincOp(int var, int increment, MethodVisitor mv, LocalVariableManager lvs, TaintPassingMV ta) {
         if ((Configuration.IMPLICIT_TRACKING || ta.isImplicitLightTracking) && !Configuration.WITHOUT_PROPOGATION) {
             if (ta.isIgnoreAllInstrumenting || ta.isRawInsns) {
@@ -715,6 +735,11 @@ public class DataAndControlFlowTagFactory implements TaintTagFactory, Opcodes {
         mv.visitTableSwitchInsn(min, max, dflt, labels);
     }
 
+    /**
+     * Combines taints of different variables of a class.
+     * The final value on stack is the combined taint tag of all variables.
+     * @param acc Access specifier for the given class.
+     */
     @Override
     public void propogateTagNative(String className, int acc, String methodName, String newDesc, MethodVisitor mv) {
         int idx = 0;
@@ -740,6 +765,9 @@ public class DataAndControlFlowTagFactory implements TaintTagFactory, Opcodes {
         }
     }
 
+    /**
+     * Sets the default value of tags.
+     */
     @Override
     public void generateSetTag(MethodVisitor mv, String className) {
         if (Configuration.MULTI_TAINTING) {

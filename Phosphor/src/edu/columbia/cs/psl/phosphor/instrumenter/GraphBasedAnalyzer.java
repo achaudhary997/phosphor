@@ -13,6 +13,11 @@ import java.util.HashMap;
 import java.util.Set;
 
 public class GraphBasedAnalyzer {
+    /**
+     * Does something with loop detection need to analyse.
+     * @param mn
+     * @param implicitAnalysisblocks
+     */
     public static void doGraphAnalysis(MethodNode mn, HashMap<Integer, PrimitiveArrayAnalyzer.BasicBlock> implicitAnalysisblocks) {
         Graph<PrimitiveArrayAnalyzer.BasicBlock, DefaultEdge> graph = new DefaultDirectedGraph<PrimitiveArrayAnalyzer.BasicBlock, DefaultEdge>(DefaultEdge.class);
         boolean hasJumps = false;

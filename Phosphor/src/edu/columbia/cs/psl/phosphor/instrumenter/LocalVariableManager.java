@@ -305,6 +305,11 @@ public class LocalVariableManager extends OurLocalVariablesSorter implements Opc
 
     HashSet<Integer> tmpLVIdices = new HashSet<Integer>();
 
+    /**
+     * Tries to give a temporary local variable for the given type t.
+     * @param t
+     * @return Index to the temp local variable created.
+     */
     public int getTmpLV(Type t) {
         if (t.getDescriptor().equals("java/lang/Object;"))
             throw new IllegalArgumentException();
