@@ -104,7 +104,7 @@ public class PreMain {
         }
 
         static MessageDigest md5inst;
-
+        
         public static byte[] _transform(ClassLoader loader, final String className2, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer)
                 throws IllegalClassFormatException {
             ClassReader cr = (Configuration.READ_AND_SAVE_BCI ? new OffsetPreservingClassReader(classfileBuffer) : new ClassReader(classfileBuffer));

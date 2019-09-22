@@ -5,7 +5,9 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-/* Visits a Java class modifying the <clint> method to add code to retransform the class on class initialization. */
+/**
+ * Visits a Java class modifying the <clint> method to add code to retransform the class on class initialization.
+ */
 public class ClinitRetransformClassVisitor extends ClassVisitor {
 
     // Whether or not the <clint> has been visited

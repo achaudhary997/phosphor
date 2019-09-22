@@ -1,0 +1,172 @@
+.
+└── phosphor
+    ├── BasicSourceSinkManager.java
+    ├── CallGraphBuildingClassVisitor.java
+    ├── ClassHierarchyCreator.java
+    ├── ClassSupertypeReadingTransformer.java
+    ├── Configuration.java
+    ├── DebugPrinter.java
+    ├── FieldDescriptor.java
+    ├── Instrumenter.java
+    ├── MethodDescriptor.java
+    ├── NullSourceSinkManager.java
+    ├── PartialInstrumentationInferencerCV.java
+    ├── PhosphorBaseTransformer.java
+    ├── PreMain.java
+    ├── SelectiveInstrumentationManager.java
+    ├── SourceSinkManager.java
+    ├── SourceSinkTransformer.java
+    ├── TaintUtils.java
+    ├── instrumenter
+    │   ├── ClinitRetransformClassVisitor.java
+    │   ├── ClinitRetransformMV.java
+    │   ├── DataAndControlFlowTagFactory.java
+    │   ├── EclipseCompilerCV.java
+    │   ├── GraphBasedAnalyzer.java
+    │   ├── HidePhosphorFromASMCV.java
+    │   ├── InstOrUninstChoosingMV.java
+    │   ├── JettyBufferUtilCV.java
+    │   ├── LocalVariableManager.java
+    │   ├── MethodArgReindexer.java
+    │   ├── OgnlUtilCV.java
+    │   ├── PhosphorTextifier.java
+    │   ├── PopOptimizingMV.java
+    │   ├── PowerMockUtilCV.java
+    │   ├── PrimitiveArrayAnalyzer.java
+    │   ├── PrimitiveBoxingFixer.java
+    │   ├── ReflectionHidingMV.java
+    │   ├── SCCAnalyzer.java
+    │   ├── SinkTaintingMV.java
+    │   ├── SourceSinkTaintingClassVisitor.java
+    │   ├── SourceTaintingMV.java
+    │   ├── SpecialOpcodeRemovingMV.java
+    │   ├── StringTaintVerifyingMV.java
+    │   ├── TaintAdapter.java
+    │   ├── TaintLoadCoercer.java
+    │   ├── TaintPassingMV.java
+    │   ├── TaintTagFactory.java
+    │   ├── TaintTagFieldCastMV.java
+    │   ├── TaintThroughTaintingMV.java
+    │   ├── TaintTrackingClassVisitor.java
+    │   ├── UninstTaintSentinalArgFixer.java
+    │   ├── UninstrumentedCompatMV.java
+    │   ├── UninstrumentedReflectionHidingMV.java
+    │   ├── analyzer
+    │   │   ├── BasicArrayInterpreter.java
+    │   │   ├── BasicArrayValue.java
+    │   │   ├── InstMethodSinkInterpreter.java
+    │   │   ├── NeverNullArgAnalyzerAdapter.java
+    │   │   ├── PFrame.java
+    │   │   ├── SinkableArrayValue.java
+    │   │   └── TaggedValue.java
+    │   └── asm
+    │       ├── OffsetPreservingClassReader.java
+    │       └── OffsetPreservingLabel.java
+    ├── org
+    │   └── objectweb
+    │       └── asm
+    │           ├── SignatureReWriter.java
+    │           ├── commons
+    │           │   ├── OurJSRInlinerAdapter.java
+    │           │   ├── OurLocalVariablesSorter.java
+    │           │   └── OurSerialVersionUIDAdder.java
+    │           └── tree
+    │               └── FrameNode.java
+    ├── runtime
+    │   ├── ArrayHelper.java
+    │   ├── ArrayReflectionMasker.java
+    │   ├── AutoTaintLabel.java
+    │   ├── BoxedPrimitiveStoreWithIntTags.java
+    │   ├── BoxedPrimitiveStoreWithObjTags.java
+    │   ├── CharacterUtils.java
+    │   ├── ControlTaintTagStackPool.java
+    │   ├── DerivedTaintListener.java
+    │   ├── HardcodedBypassStore.java
+    │   ├── MultiTainter.java
+    │   ├── NativeHelper.java
+    │   ├── ReflectionMasker.java
+    │   ├── RuntimeBoxUnboxPropogator.java
+    │   ├── RuntimeReflectionPropogator.java
+    │   ├── RuntimeUnsafePropagator.java
+    │   ├── StringUtils.java
+    │   ├── Taint.java
+    │   ├── TaintInstrumented.java
+    │   ├── TaintSentinel.java
+    │   ├── TaintSinkError.java
+    │   ├── TaintSourceWrapper.java
+    │   ├── Tainter.java
+    │   ├── UninstArrayReflectionMasker.java
+    │   └── UninstrumentedTaintSentinel.java
+    └── struct
+        ├── ArrayList.java
+        ├── BitSet.java
+        ├── CallGraph.java
+        ├── ControlTaintTagStack.java
+        ├── DoubleLinkedList.java
+        ├── EnqueuedTaint.java
+        ├── ExceptionalTaintData.java
+        ├── Field.java
+        ├── GarbageCollectedArrayList.java
+        ├── IntArrayList.java
+        ├── IntObjectAMT.java
+        ├── IntPowerSetTree.java
+        ├── IntSinglyLinkedList.java
+        ├── LazyArrayIntTags.java
+        ├── LazyArrayObjTags.java
+        ├── LazyBooleanArrayIntTags.java
+        ├── LazyBooleanArrayObjTags.java
+        ├── LazyByteArrayIntTags.java
+        ├── LazyByteArrayObjTags.java
+        ├── LazyCharArrayIntTags.java
+        ├── LazyCharArrayObjTags.java
+        ├── LazyDoubleArrayIntTags.java
+        ├── LazyDoubleArrayObjTags.java
+        ├── LazyFloatArrayIntTags.java
+        ├── LazyFloatArrayObjTags.java
+        ├── LazyIntArrayIntTags.java
+        ├── LazyIntArrayObjTags.java
+        ├── LazyLongArrayIntTags.java
+        ├── LazyLongArrayObjTags.java
+        ├── LazyShortArrayIntTags.java
+        ├── LazyShortArrayObjTags.java
+        ├── LinkedList.java
+        ├── MaybeThrownException.java
+        ├── MethodInformation.java
+        ├── MethodInvoke.java
+        ├── MiniClassNode.java
+        ├── Pair.java
+        ├── PowerSetTree.java
+        ├── SimpleHashSet.java
+        ├── SimpleIdentityHashSet.java
+        ├── SinglyLinkedList.java
+        ├── Tainted.java
+        ├── TaintedBooleanWithIntTag.java
+        ├── TaintedBooleanWithObjTag.java
+        ├── TaintedByteWithIntTag.java
+        ├── TaintedByteWithObjTag.java
+        ├── TaintedCharWithIntTag.java
+        ├── TaintedCharWithObjTag.java
+        ├── TaintedDoubleWithIntTag.java
+        ├── TaintedDoubleWithObjTag.java
+        ├── TaintedFloatWithIntTag.java
+        ├── TaintedFloatWithObjTag.java
+        ├── TaintedIntWithIntTag.java
+        ├── TaintedIntWithObjTag.java
+        ├── TaintedLongWithIntTag.java
+        ├── TaintedLongWithObjTag.java
+        ├── TaintedMisc.java
+        ├── TaintedObjectWithIntTag.java
+        ├── TaintedObjectWithObjCtrlTag.java
+        ├── TaintedObjectWithObjTag.java
+        ├── TaintedPrimitiveWithIntTag.java
+        ├── TaintedPrimitiveWithObjTag.java
+        ├── TaintedShortWithIntTag.java
+        ├── TaintedShortWithObjTag.java
+        ├── TaintedWithIntTag.java
+        ├── TaintedWithObjTag.java
+        └── multid
+            ├── MultiDTaintedArray.java
+            ├── MultiDTaintedArrayWithIntTag.java
+            └── MultiDTaintedArrayWithObjTag.java
+
+12 directories, 157 files
