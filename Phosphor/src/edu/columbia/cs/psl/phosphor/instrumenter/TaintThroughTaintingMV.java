@@ -9,6 +9,10 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+/**
+ * !! Not sure !!
+ * TaintThroughTaintingMV combines the instance's taint tag with the method arguments, and return value.
+ */
 public class TaintThroughTaintingMV extends MethodVisitor implements Opcodes {
 
     private final String owner;
@@ -32,7 +36,9 @@ public class TaintThroughTaintingMV extends MethodVisitor implements Opcodes {
         }
     }
 
-    /* Adds code to add this instance's taint tags to the arguments passed to this method. */
+    /**
+     * Adds code to add this instance's taint tags to the arguments passed to this method.
+     */
     private void taintArguments() {
         Type[] args = Type.getArgumentTypes(desc);
         int idx = isStatic ? 0 : 1; // skip over the "this" argument for non-static methods
@@ -52,6 +58,9 @@ public class TaintThroughTaintingMV extends MethodVisitor implements Opcodes {
     }
 
     @Override
+    /**
+     * Combines the taint tag of this instance with the taint tag of the return value.
+     */
     public void visitInsn(int opcode) {
         if (Configuration.MULTI_TAINTING) {
             if (TaintUtils.isReturnOpcode(opcode)) {
