@@ -74,8 +74,11 @@ public class PrimitiveArrayAnalyzer extends MethodVisitor {
         //				}
         //				super.visitVarInsn(opcode, var);
         //			}
-        private void visitFrameTypes(final int n, final Object[] types,
-                                     final List<Object> result) {
+
+        /**
+         * Populates the result list with the types of each object in 'types'
+         */
+        private void visitFrameTypes(final int n, final Object[] types, final List<Object> result) {
             for (int i = 0; i < n; ++i) {
                 Object type = types[i];
                 result.add(type);
@@ -85,6 +88,9 @@ public class PrimitiveArrayAnalyzer extends MethodVisitor {
             }
         }
 
+        /**
+         * Generates a frame node
+         */
         FrameNode generateFrameNode(int type, int nLocal, Object[] local, int nStack, Object[] stack) {
             FrameNode ret = new FrameNode(type, nLocal, local, nStack, stack);
             ret.local = new ArrayList<Object>();
@@ -105,7 +111,7 @@ public class PrimitiveArrayAnalyzer extends MethodVisitor {
                 inFrames.add(generateFrameNode(type, nLocal, local, nStack, stack));
             else
                 inFrames.set(curLabel - 1, generateFrameNode(type, nLocal, local, nStack, stack));
-//							System.out.println(name+" " +Arrays.toString(local));
+            //				System.out.println(name+" " +Arrays.toString(local));
             //				if (curLabel > 0) {
             //				System.out.println("And resetting outframe " + (curLabel - 2));
             //					if (outFrames.size() == curLabel - 1)
@@ -233,6 +239,9 @@ public class PrimitiveArrayAnalyzer extends MethodVisitor {
                     return label;
                 }
 
+                /**
+                 * Returns the instruction after the given grame instruction
+                 */
                 int getInsnAfterFrameFor(int insn) {
                     int r = 0;
                     for (int i = 0; i < insn; i++) {
@@ -281,7 +290,7 @@ public class PrimitiveArrayAnalyzer extends MethodVisitor {
                 public Frame[] analyze(String owner, MethodNode m) throws AnalyzerException {
                     Iterator<AbstractInsnNode> insns = m.instructions.iterator();
                     insnToLabel = new int[m.instructions.size()];
-//											System.out.println("PAAA"+ name);
+                    // System.out.println("PAAA"+ name);
                     int label = -1;
                     boolean isFirst = true;
                     while (insns.hasNext()) {
@@ -294,7 +303,7 @@ public class PrimitiveArrayAnalyzer extends MethodVisitor {
 
                         insnToLabel[idx] = (isFirst ? 1 : label);
                         isFirst = false;
-                        //														System.out.println(idx + "->"+label);
+                        // System.out.println(idx + "->"+label);
                     }
                     Frame[] ret = super.analyze(owner, m);
                     if (shouldTrackExceptions) {

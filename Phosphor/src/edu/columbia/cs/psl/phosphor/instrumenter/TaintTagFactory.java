@@ -4,6 +4,9 @@ import edu.columbia.cs.psl.phosphor.runtime.Taint;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 
+/**
+ * An interface implemented by DataAndControlFlowTagFactory
+ */
 public interface TaintTagFactory {
 
     public Taint<?> getAutoTaint(String source);
