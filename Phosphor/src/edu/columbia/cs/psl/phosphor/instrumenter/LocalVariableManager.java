@@ -21,6 +21,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map.Entry;
 
+/**
+ * Hanldes the creation of temporary variable on the stack. Also handles various visitMethod like function call
+ * to deal with the newly created variables while handling the shadow variable associated with them.
+ * Basically a manager for managin local variables associated with a function call along with taint data required for them.
+ */
 public class LocalVariableManager extends OurLocalVariablesSorter implements Opcodes {
     private NeverNullArgAnalyzerAdapter analyzer;
     private static final boolean DEBUG = false;
@@ -108,6 +113,10 @@ public class LocalVariableManager extends OurLocalVariablesSorter implements Opc
         this.generateExtraDebug = generateExtraDebug;
     }
 
+    /**
+     * Frees tempararily assigned variable at the given <b>idx</b>
+     * @param idx to free.
+     */
     public void freeTmpLV(int idx) {
         for (TmpLV v : tmpLVs) {
             if (v.idx == idx && v.inUse) {
@@ -137,6 +146,12 @@ public class LocalVariableManager extends OurLocalVariablesSorter implements Opc
     HashMap<Integer, Object> shadowLVMapType = new HashMap<Integer, Object>();
 
     //	HashSet<String> usedShadowNames = new HashSet<>();
+    /**
+     * Creates a new shadaow LV
+     * @param type
+     * @param shadows
+     * @return index to the shadow variable on the stack.
+     */
     public int newShadowLV(Type type, int shadows) {
         int idx = super.newLocal(type);
         Label lbl = new Label();
@@ -235,6 +250,12 @@ public class LocalVariableManager extends OurLocalVariablesSorter implements Opc
         return idx;
     }
 
+    /**
+     * Remap the given variable to the given type. Will also create a new shadow variable of type <b>type</b> 
+     * @param var index of variable of typecast
+     * @param type the new type value
+     * @return the index of typecasted variable.
+     */
     protected int remap(int var, Type type) {
 
         int ret = super.remap(var, type);
@@ -261,6 +282,11 @@ public class LocalVariableManager extends OurLocalVariablesSorter implements Opc
         return ret;
     }
 
+    /**
+     * Returns a new Preallocated Variable of given <b>type</b>
+     * @param type of preallocated varible
+     * @return index of the new variable on the stack
+     */
     private int newPreAllocedReturnType(Type type) {
         int idx = super.newLocal(type);
         Label lbl = new Label();
@@ -275,9 +301,9 @@ public class LocalVariableManager extends OurLocalVariablesSorter implements Opc
     }
 
     /**
-     * Gets a tmp lv capable of storing the top stack el
+     * Gets a tmp lv capable of storing the top stack element
      *
-     * @return
+     * @return index of tmp local variable
      */
     public int getTmpLV() {
         Object obj = analyzer.stack.get(analyzer.stack.size() - 1);

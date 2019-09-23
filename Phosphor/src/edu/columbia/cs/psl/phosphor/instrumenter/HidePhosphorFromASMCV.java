@@ -8,6 +8,10 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.FrameNode;
 
+/**
+ * Hanldes phosphor tagged methods so that they are hidden from the real jvm and all opcodes are executed
+ * keeping in mind that there may be tags associated with variables.
+ */
 public class HidePhosphorFromASMCV extends ClassVisitor {
     private boolean upgradeVersion;
 
@@ -38,13 +42,24 @@ public class HidePhosphorFromASMCV extends ClassVisitor {
                     super.visitCode();
 
                     super.visitVarInsn(Opcodes.ALOAD, 2);
+                    // Pushes the value of variable $$PHOSPHORTAGGED into the stack
                     super.visitLdcInsn("$$PHOSPHORTAGGED");
+                    // Check if it ends with $$PHOSPHORTAGGED
                     super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "endsWith", "(Ljava/lang/String;)Z", false);
-                    Label lbl = new Label();
+                    Label lbl = new Label(); // Create a new label 
+                    /*
+                     * Generates an if condition of the type <- Not sure guessed this
+                     * if (!endWith("$$PHOSPHORTAGGED")) {
+                     *      return null;
+                     * } else {
+                     *      goto lbl; <- To handle tag related data as it is tagged.
+                     * }
+                     */
                     super.visitJumpInsn(Opcodes.IFEQ, lbl);
                     super.visitInsn(Opcodes.ACONST_NULL);
                     super.visitInsn(Opcodes.ARETURN);
                     super.visitLabel(lbl);
+
                     NeverNullArgAnalyzerAdapter na = new NeverNullArgAnalyzerAdapter(className, access, name, descriptor, null);
                     na.visitCode();
                     FrameNode fn = TaintAdapter.getCurrentFrameNode(na);
