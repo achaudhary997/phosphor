@@ -16,7 +16,9 @@ public class SourceTaintingMV extends MethodVisitor implements Opcodes {
     private final Type origReturnType;
     private final boolean isStatic;
     private final Object lbl;
-    // The untainted signature of the source method being visited
+    /**
+     * The untainted signature of the source method being visited
+     */
     private final String actualSource;
 
 
@@ -29,8 +31,12 @@ public class SourceTaintingMV extends MethodVisitor implements Opcodes {
         this.actualSource = SourceSinkManager.getOriginalMethodSignature(owner, name, desc);
     }
 
-    /* Adds code to make a call to autoTaint. Supplies the specified int as the argument index. Check that the value returned
-     * by the call can be cast to the class with the specified internal name. */
+    /**
+     * Adds code to make a call to autoTaint. Supplies the specified int as the argument index. Check that the value returned
+     * by the call can be cast to the class with the specified internal name.
+     * @param argIndex
+     * @param internalName
+     */
     private void callAutoTaint(int argIndex, String internalName) {
         super.visitFieldInsn(GETSTATIC, Type.getInternalName(Configuration.class), "autoTainter", Type.getDescriptor(TaintSourceWrapper.class));
         super.visitInsn(SWAP);
@@ -41,7 +47,9 @@ public class SourceTaintingMV extends MethodVisitor implements Opcodes {
         super.visitTypeInsn(CHECKCAST, internalName);
     }
 
-    /* Adds code to taint the arguments passed to this method. */
+    /**
+     * Adds code to taint the arguments passed to this method.
+     */
     private void autoTaintArguments() {
         Type[] args = Type.getArgumentTypes(desc);
         int idx = isStatic ? 0 : 1; // skip over the "this" argument for non-static methods

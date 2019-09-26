@@ -10,6 +10,9 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+/**
+ * Does not visit all opcodes for some speical oness it won't do anything.
+ */
 public class SpecialOpcodeRemovingMV extends MethodVisitor {
 
     private boolean ignoreFrames;
@@ -97,6 +100,9 @@ public class SpecialOpcodeRemovingMV extends MethodVisitor {
         }
     }
 
+    /**
+     * Handle multi dimension array tains while visiting LVs.
+     */
     @Override
     public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
         Type descType = Type.getType(desc);
@@ -114,6 +120,9 @@ public class SpecialOpcodeRemovingMV extends MethodVisitor {
         super.visitTypeInsn(opcode, type);
     }
 
+    /**
+     * Replace tagged values and stack and local with their actual values.
+     */
     @Override
     public void visitFrame(int type, int nLocal, Object[] local, int nStack, Object[] stack) {
         if (type == TaintUtils.RAW_INSN)

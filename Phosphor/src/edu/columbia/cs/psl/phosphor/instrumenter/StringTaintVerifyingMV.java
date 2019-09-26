@@ -12,6 +12,11 @@ import org.objectweb.asm.tree.FrameNode;
 
 import java.util.HashSet;
 
+
+
+/**
+ * Verifies the length of taint values of string types to make sure they are correct.
+ */
 public class StringTaintVerifyingMV extends MethodVisitor implements Opcodes {
     boolean implementsSerializable;
     NeverNullArgAnalyzerAdapter analyzer;
@@ -76,6 +81,9 @@ public class StringTaintVerifyingMV extends MethodVisitor implements Opcodes {
         super.visitMultiANewArrayInsn(desc, dims);
     }
 
+    /**
+     * Verifies the length of taint values of string types to make sure they are correct.
+     */
     @Override
     public void visitFieldInsn(int opcode, String owner, String name, String desc) {
         Type t = Type.getType(desc);
@@ -109,7 +117,7 @@ public class StringTaintVerifyingMV extends MethodVisitor implements Opcodes {
             String shadowDesc = TaintUtils.getShadowTaintType(desc);
             String shadowObj = Type.getType(shadowDesc).getInternalName();
             super.visitFieldInsn(opcode, owner, name + TaintUtils.TAINT_FIELD, shadowDesc);
-            //Obj tf
+            //Obj tf (taint field)
             super.visitJumpInsn(IFNONNULL, isOK); //if taint is null, def init
             //Obj
             //if taint is not null, check the length
@@ -178,11 +186,11 @@ public class StringTaintVerifyingMV extends MethodVisitor implements Opcodes {
             //if taint is not null, check the length
             super.visitInsn(DUP); // O O
             super.visitInsn(DUP); // O O O
-            super.visitFieldInsn(opcode, owner, name, desc);
-            super.visitInsn(ARRAYLENGTH);
-            super.visitInsn(SWAP);
-            super.visitFieldInsn(opcode, owner, name + TaintUtils.TAINT_FIELD, "[[I");
-            super.visitInsn(ARRAYLENGTH);
+            super.visitFieldInsn(opcode, owner, name, desc); // O O F
+            super.visitInsn(ARRAYLENGTH);// O O Field_Len
+            super.visitInsn(SWAP); // O Field_Len O
+            super.visitFieldInsn(opcode, owner, name + TaintUtils.TAINT_FIELD, "[[I"); // O Field_Len TF
+            super.visitInsn(ARRAYLENGTH); // O Field_Len TF_Len
             super.visitJumpInsn(IF_ICMPLE, isOK); //if taint is shorter than value, reinit it
             super.visitLabel(doInit);
             TaintAdapter.acceptFn(fn1, this);

@@ -9,6 +9,7 @@ import java.util.Stack;
 
 /**
  * From https://sites.google.com/site/indy256/algo/scc_tarjan
+ * Hanldes strongly connect componenets.
  */
 public class SCCAnalyzer {
     BasicBlock[] graph;

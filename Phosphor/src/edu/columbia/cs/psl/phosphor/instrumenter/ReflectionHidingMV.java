@@ -14,6 +14,12 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.FrameNode;
 
+
+/**
+ * Handles visitMethodInsn after masking all possible dangerous calls to functions and replacing them with safe ones.
+ * It does masking of various kinds while ensuring that the method with correct signature is called while calling
+ * getters, setters, constructros, accessing field, etc.
+ */
 public class ReflectionHidingMV extends MethodVisitor implements Opcodes {
 
     private final String className;
@@ -46,6 +52,9 @@ public class ReflectionHidingMV extends MethodVisitor implements Opcodes {
         this.lvs = lvs;
     }
 
+    /**
+     * Handles method calling and calls the fast one if no chagnes done to method signature.
+     */
     private void maskMethodInvoke() {
         // method owner [Args
         // Try the fastpath where we know we don't change the method orig version
@@ -65,13 +74,20 @@ public class ReflectionHidingMV extends MethodVisitor implements Opcodes {
         super.visitInsn(SWAP);
         //M B
         super.visitInsn(DUP);
+        //M B B
         super.visitFieldInsn(GETFIELD, Type.getInternalName(MethodInvoke.class), "o", "Ljava/lang/Object;");
+        //M B O
         super.visitInsn(SWAP);
+        //M O B
         super.visitFieldInsn(GETFIELD, Type.getInternalName(MethodInvoke.class), "a", "[Ljava/lang/Object;");
+        //M O [A
         if (Configuration.IMPLICIT_TRACKING || Configuration.IMPLICIT_HEADERS_NO_TRACKING)
             super.visitVarInsn(ALOAD, lvs.idxOfMasterControlLV);
     }
 
+    /**
+     * Hanldes constructor calling and calls the fast one if no changes done to method signature.
+     */
     private void maskConstructorNewInstance() {
         if (Configuration.IMPLICIT_TRACKING || Configuration.IMPLICIT_HEADERS_NO_TRACKING) {
             super.visitInsn(POP);
@@ -95,6 +111,11 @@ public class ReflectionHidingMV extends MethodVisitor implements Opcodes {
         }
     }
 
+    /**
+     * Save the args call the original getter restore the args (which were there) back onto the stack in the same order.
+     * @param owner
+     * @param args
+     */
     private void maskGetter(String owner, Type[] args) {
         String desc = String.format("(L%s;Z)L%s;", owner, owner);
         if (args.length == 0) {
@@ -119,8 +140,16 @@ public class ReflectionHidingMV extends MethodVisitor implements Opcodes {
         }
     }
 
-    /* Returns whether a method instruction with the specified information is for a method added to Unsafe by Phosphor
-     * that retrieves the value of a field of a Java heap object. */
+    /**
+     * Returns whether a method instruction with the specified information is for a method added to Unsafe by Phosphor
+     * that retrieves the value of a field of a Java heap object
+     * @param opcode
+     * @param owner
+     * @param name
+     * @param args
+     * @param nameWithoutSuffix
+     * @return
+     */
     private boolean isUnsafeFieldGetter(int opcode, String owner, String name, Type[] args, String nameWithoutSuffix) {
         if (className.equals("sun/misc/Unsafe") || opcode != INVOKEVIRTUAL || !"sun/misc/Unsafe".equals(owner) || !name.endsWith(TaintUtils.METHOD_SUFFIX)) {
             return false;
@@ -154,8 +183,13 @@ public class ReflectionHidingMV extends MethodVisitor implements Opcodes {
         }
     }
 
-    /* Changes calls to methods added to Unsafe by Phosphor which retrieve the value of a field of a Java heap object to
-     * instead call a method in RuntimeUnsafePropagator. */
+    /**
+     * Changes calls to methods added to Unsafe by Phosphor which retrieve the value of a field of a Java heap object to
+     * instead call a method in RuntimeUnsafePropagator.
+     * @param retType
+     * @param nameWithoutSuffix
+     * @param args
+     */
     private void maskUnsafeFieldGetter(Type retType, String nameWithoutSuffix, Type[] args) {
         SinglyLinkedList<Type> argStack = new SinglyLinkedList<>();
         for (Type arg : args) {
@@ -174,8 +208,16 @@ public class ReflectionHidingMV extends MethodVisitor implements Opcodes {
         super.visitTypeInsn(CHECKCAST, retType.getInternalName());
     }
 
-    /* Returns whether a method instruction with the specified information is for a method added to Unsafe by Phosphor
-     * that sets the value of a field of a Java heap object. */
+    /**
+     * Returns whether a method instruction with the specified information is for a method added to Unsafe by Phosphor
+     * that sets the value of a field of a Java heap object.
+     * @param opcode
+     * @param owner
+     * @param name
+     * @param args
+     * @param nameWithoutSuffix
+     * @return
+     */
     private boolean isUnsafeFieldSetter(int opcode, String owner, String name, Type[] args, String nameWithoutSuffix) {
         if (className.equals("sun/misc/Unsafe") || opcode != INVOKEVIRTUAL || !"sun/misc/Unsafe".equals(owner) || !name.endsWith(TaintUtils.METHOD_SUFFIX)) {
             return false;
@@ -212,8 +254,12 @@ public class ReflectionHidingMV extends MethodVisitor implements Opcodes {
         }
     }
 
-    /* Changes calls to methods added to Unsafe by Phosphor which set the value of a field of a Java heap object to instead
-     * call a method in RuntimeUnsafePropagator. */
+    /**
+     * Changes calls to methods added to Unsafe by Phosphor which set the value of a field of a Java heap object to instead
+     * call a method in RuntimeUnsafePropagator.
+     * @param nameWithoutSuffix
+     * @param args
+     */
     private void maskUnsafeFieldSetter(String nameWithoutSuffix, Type[] args) {
         SinglyLinkedList<Type> argStack = new SinglyLinkedList<>();
         for (Type arg : args) {
@@ -227,8 +273,14 @@ public class ReflectionHidingMV extends MethodVisitor implements Opcodes {
                 "(Lsun/misc/Unsafe;Ljava/lang/Object;JLjava/lang/Object;)V", false);
     }
 
-    /* Returns whether a method instruction with the specified information is for a method added to Unsafe by Phosphor
-     * for a compareAndSwap method. */
+    /**
+     * Returns whether a method instruction with the specified information is for a method added to Unsafe by Phosphor
+     * for a compareAndSwap method.
+     * @param owner
+     * @param name
+     * @param nameWithoutSuffix
+     * @return
+     */
     private boolean isUnsafeCAS(String owner, String name, String nameWithoutSuffix) {
         if (!"sun/misc/Unsafe".equals(owner) || !name.endsWith(TaintUtils.METHOD_SUFFIX) || className.equals("sun/misc/Unsafe")) {
             return false;
@@ -238,8 +290,11 @@ public class ReflectionHidingMV extends MethodVisitor implements Opcodes {
         }
     }
 
-    /* Changes calls to methods added to Unsafe by Phosphor for compareAndSwap to instead call a method in
-     * RuntimeUnsafePropagator. */
+    /**
+     * Changes calls to methods added to Unsafe by Phosphor for compareAndSwap to instead call a method in
+     * RuntimeUnsafePropagator.
+     * @param args
+     */
     private void maskUnsafeCAS(Type[] args) {
         SinglyLinkedList<Type> argStack = new SinglyLinkedList<>();
         for (Type arg : args) {
@@ -278,7 +333,11 @@ public class ReflectionHidingMV extends MethodVisitor implements Opcodes {
         super.visitFieldInsn(PUTFIELD, fieldOwner, "taint", Configuration.TAINT_TAG_DESC);
     }
 
-    /* Swaps the top stack value of the specified type with the value below it of the specified other type. */
+    /**
+     * Swaps the <i>top</i> stack value of the specified type with the value <i>below</i> it of the specified other type.
+     * @param top
+     * @param below
+     */
     private void swap(Type top, Type below) {
         if (top.getSize() == 1) {
             if (below.getSize() == 1) {
@@ -293,9 +352,12 @@ public class ReflectionHidingMV extends MethodVisitor implements Opcodes {
         }
     }
 
-    /* If the the type at the top of the specified stack is a ControlTaintTagStack type or the top type is a tainted
-     * primitive container type and the type under it is a ControlTaintTagStack type pops the ControlTaintTagStack off of
-     * the stack and updates the stack to reflect the changes made. */
+    /**
+     * If the the type at the top of the specified stack is a ControlTaintTagStack type or the top type is a tainted
+     * primitive container type and the type under it is a ControlTaintTagStack type. We pops the ControlTaintTagStack off of
+     * the stack and updates the stack to reflect the changes made.
+     * @param argStack
+     */
     private void popControlTaintTagStack(SinglyLinkedList<Type> argStack) {
         if (!argStack.isEmpty() && argStack.peek().equals(Type.getType(ControlTaintTagStack.class))) {
             super.visitInsn(POP);
@@ -311,8 +373,11 @@ public class ReflectionHidingMV extends MethodVisitor implements Opcodes {
         }
     }
 
-    /* If the type at the top of the specified stack is a primitive type wraps that primitive into a
-     * TaintedPrimitiveWithObjTag or TaintedPrimitiveWithIntTag instance. */
+    /**
+     * If the type at the top of the specified stack is a primitive type wraps that primitive into a
+     * TaintedPrimitiveWithObjTag or TaintedPrimitiveWithIntTag instance.
+     * @param argStack
+     */
     private void wrapPrimitive(SinglyLinkedList<Type> argStack) {
         int sort = argStack.peek().getSort();
         if (sort != Type.ARRAY && sort != Type.OBJECT) {
@@ -335,8 +400,11 @@ public class ReflectionHidingMV extends MethodVisitor implements Opcodes {
         }
     }
 
-    /* The stack when entering this method should have a Object followed by either an int or a long and then the taint tag
-     * for that int or long. Removes the taint tag from the stack and ensures that the second value is always a long. */
+    /**
+     * The stack when entering this method should have a Object followed by either an int or a long and then the taint tag
+     * for that int or long. Removes the taint tag from the stack and ensures that the second value is always a long.
+     * @param argStack
+     */
     private void removeOffsetTagAndCastOffset(SinglyLinkedList<Type> argStack) {
         Type top = argStack.pop();
         Type second = argStack.pop();
@@ -362,6 +430,9 @@ public class ReflectionHidingMV extends MethodVisitor implements Opcodes {
         argStack.push(top);
     }
 
+    /**
+     * Handles visitMethodInsn after masking all possible dangerous calls to functions and replacing them with safe ones.
+     */
     @Override
     public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean isInterface) {
         Type[] args = Type.getArgumentTypes(desc);
@@ -370,7 +441,7 @@ public class ReflectionHidingMV extends MethodVisitor implements Opcodes {
         if (owner.equals("java/lang/Object") && nameWithoutSuffix.equals("getClass") && isObjOutputStream) {
             super.visitMethodInsn(INVOKESTATIC, Type.getInternalName(ReflectionMasker.class), "getClassOOS", "(Ljava/lang/Object;)Ljava/lang/Class;", false);
         } else if ((disable || className.equals("java/io/ObjectOutputStream") || className.equals("java/io/ObjectInputStream")) && owner.equals("java/lang/Class") && !owner.equals(className) && name.startsWith("isInstance$$PHOSPHORTAGGED")) {
-            // Even if we are ignoring other hiding here, we definitely need to do this.
+            // Even if we are ignoring other hiding here, we definitely need to do this. Box the return type
             String retDesc = "Ledu/columbia/cs/psl/phosphor/struct/TaintedBooleanWith" + (Configuration.MULTI_TAINTING ? "Obj" : "Int") + "Tag;";
             String newDesc = "(Ljava/lang/Class;Ljava/lang/Object;";
             if (Configuration.IMPLICIT_TRACKING || Configuration.IMPLICIT_HEADERS_NO_TRACKING) {

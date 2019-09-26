@@ -11,6 +11,10 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.FrameNode;
 
+
+/** 
+ * Puts boxed value on the stack <- Guess not sure about this yet
+*/
 public class PrimitiveBoxingFixer extends TaintAdapter implements Opcodes {
     public PrimitiveBoxingFixer(int access, String className, String name, String desc, String signature, String[] exceptions, MethodVisitor mv, NeverNullArgAnalyzerAdapter analyzer) {
         super(access, className, name, desc, signature, exceptions, mv, analyzer);
@@ -79,6 +83,9 @@ public class PrimitiveBoxingFixer extends TaintAdapter implements Opcodes {
         super.visitInsn(opcode);
     }
 
+    /** 
+     * Puts boxed value on the stack <- Guess not sure about this yet
+    */
     @Override
     public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itfc) {
         int nArgs = Type.getArgumentTypes(desc).length;
