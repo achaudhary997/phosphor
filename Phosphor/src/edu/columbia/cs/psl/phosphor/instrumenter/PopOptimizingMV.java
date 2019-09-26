@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map.Entry;
 
+/**
+ * Optimizes the code for pop (maybe all tyepes of) instructions by adding various optimizing instructions.
+ */
 public class PopOptimizingMV extends MethodVisitor implements Opcodes {
 
     public PopOptimizingMV(MethodVisitor cmv, int access, String owner, String name, String desc, String signature, String[] exceptions) {
@@ -155,6 +158,10 @@ public class PopOptimizingMV extends MethodVisitor implements Opcodes {
             return false;
         }
 
+        /**
+         * Optimizes the code for pop instructions by adding various optimizing instructions.
+         * @return
+         */
         private int doOptPass() {
             if (TaintUtils.DEBUG_OPT)
                 System.out.println("Optimizing: " + name);

@@ -7,7 +7,10 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.util.Textifier;
 
-
+/** 
+ * Creates description for various variables/types. If opcode > 200 it just adds to to a text list to be printed later.
+ * Else it simply passes it to super.
+*/
 public class PhosphorTextifier extends Textifier {
     static String[] MORE_OPCODES;
     static String[] TYPE_OR_INT_OPCODES;
@@ -42,22 +45,24 @@ public class PhosphorTextifier extends Textifier {
 //		MORE_OPCODES[22] = "LOOP_HEADER";
         /*
          *
-         * public static final int RAW_INSN = 201; public static final int
-         * NO_TAINT_STORE_INSN = 202; public static final int IGNORE_EVERYTHING
-         * = 203; public static final int NO_TAINT_UNBOX = 204; public static
-         * final int DONT_LOAD_TAINT = 205; public static final int
-         * GENERATETAINTANDSWAP = 206; public static final int
-         * NEXTLOAD_IS_TAINTED = 207; public static final int
-         * NEXTLOAD_IS_NOT_TAINTED = 208; public static final int NEVER_AUTOBOX
-         * = 209; public static final int ALWAYS_AUTOBOX = 210; ublic static
-         * final int IS_TMP_STORE = 213;
-         *
-         * public static final int BRANCH_START = 214; public static final int
-         * BRANCH_END = 215; public static final int FORCE_CTRL_STORE = 216;
-         *
-         * public static final int FOLLOWED_BY_FRAME = 217; public static final
-         * int CUSTOM_SIGNAL_1 = 218; public static final int CUSTOM_SIGNAL_2 =
-         * 219; public static final int CUSTOM_SIGNAL_3 = 220;
+         * public static final int RAW_INSN = 201;
+         * public static final int NO_TAINT_STORE_INSN = 202; 
+         * public static final int IGNORE_EVERYTHING = 203; 
+         * public static final int NO_TAINT_UNBOX = 204; 
+         * public static final int DONT_LOAD_TAINT = 205;
+         * public static final int GENERATETAINTANDSWAP = 206;
+         * public static final int NEXTLOAD_IS_TAINTED = 207;
+         * public static final int NEXTLOAD_IS_NOT_TAINTED = 208;
+         * public static final int NEVER_AUTOBOX = 209;
+         * public static final int ALWAYS_AUTOBOX = 210; 
+         * public static final int IS_TMP_STORE = 213;
+         * public static final int BRANCH_START = 214;
+         * public static final int BRANCH_END = 215;
+         * public static final int FORCE_CTRL_STORE = 216;
+         * public static final int FOLLOWED_BY_FRAME = 217;
+         * public static final int CUSTOM_SIGNAL_1 = 218; 
+         * public static final int CUSTOM_SIGNAL_2 = 219; 
+         * public static final int CUSTOM_SIGNAL_3 = 220;
          */
     }
 

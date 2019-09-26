@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+/**
+ * Remaps old argument index's to some new arguments. Guess: Adds indexes for taint(s) of the corressponding variables.
+ */ 
 public class MethodArgReindexer extends MethodVisitor {
     int originalLastArgIdx;
     int[] oldArgMappings;
@@ -44,7 +47,16 @@ public class MethodArgReindexer extends MethodVisitor {
     int line;
     int indexOfControlTagsInLocals;
 
-
+    /**
+     * Remaps old argument index's to some new arguments. Guess: Adds indexes for taint(s) of the corressponding variables.
+     * @param mv
+     * @param access
+     * @param name
+     * @param desc
+     * @param originalDesc
+     * @param lvStore
+     * @param isLambda
+     */
     public MethodArgReindexer(MethodVisitor mv, int access, String name, String desc, String originalDesc, MethodNode lvStore, boolean isLambda) {
         super(Configuration.ASM_VERSION, mv);
         this.lvStore = lvStore;
@@ -160,6 +172,9 @@ public class MethodArgReindexer extends MethodVisitor {
         }
     }
 
+    /**
+     * Visits the local variable keeping in mind that taints are kept along with them on the stack
+     */
     @Override
     public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
         if (index < originalLastArgIdx) {
@@ -172,6 +187,7 @@ public class MethodArgReindexer extends MethodVisitor {
             if (!found)
                 lvStore.localVariables.add(new LocalVariableNode(name, desc, signature, null, null, index));
         }
+        // If "this" variable.
         if (!isStatic && index == 0)
             super.visitLocalVariable(name, desc, signature, start, end, index);
         else if (index < originalLastArgIdx) {
@@ -212,6 +228,11 @@ public class MethodArgReindexer extends MethodVisitor {
 //		}
     }
 
+    /**
+     * 
+     * @param obj
+     * @return the type of object passed in as argument.
+     */
     public static Type getTypeForStackTypeTOPAsNull(Object obj) {
         if (obj instanceof TaggedValue)
             obj = ((TaggedValue) obj).v;
@@ -237,6 +258,10 @@ public class MethodArgReindexer extends MethodVisitor {
         throw new IllegalArgumentException("got " + obj + " zzz" + obj.getClass());
     }
 
+    /**
+     * Handles remapped indexing creates shadow variables for primitive types and primitive array.  Creates a new stack also
+     * but not sure why as it is never returned/used.
+     */
     @Override
     public void visitFrame(int type, int nLocal, Object[] local, int nStack, Object[] stack) {
         Object[] remappedLocals = new Object[Math.max(local.length, origNumArgs) + newArgOffset + 1 + nLongDoubleArgs]; //was +1, not sure why??
@@ -382,8 +407,9 @@ public class MethodArgReindexer extends MethodVisitor {
                 }
                 newStack.add(stack[i]);
             } else if (stack[i] != Opcodes.TOP && stack[i] instanceof String && ((String) stack[i]).charAt(1) == '[' && Type.getObjectType((String) stack[i]).getElementType().getSort() != Type.OBJECT) {
+                // If primitive array type
                 newStack.add(MultiDTaintedArray.getTypeForType(Type.getObjectType((String) stack[i])).getInternalName());
-            } else
+            } else // Else simply add
                 newStack.add(stack[i]);
         }
         Object[] stack2 = new Object[newStack.size()];
@@ -410,6 +436,9 @@ public class MethodArgReindexer extends MethodVisitor {
         return super.visitParameterAnnotation(remappedVar, descriptor, visible);
     }
 
+    /**
+     * If accessing an arg then get the new mapped index and call super on that.
+     */
     @Override
     public void visitAnnotableParameterCount(int parameterCount, boolean visible) {
         if (!isStatic)
@@ -418,6 +447,7 @@ public class MethodArgReindexer extends MethodVisitor {
         if (parameterCount < originalLastArgIdx) {
             remappedVar = oldArgMappings[parameterCount];
         } else {
+            // Not an argument so just add an offset and let it go.
             remappedVar += newArgOffset;
         }
         if (!isStatic)

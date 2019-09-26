@@ -5,6 +5,9 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
+/**
+ * Seems to be ignoring the <init> mehtod return. Not sure
+ */
 public class PowerMockUtilCV extends ClassVisitor {
     public PowerMockUtilCV(ClassVisitor classVisitor) {
         super(Configuration.ASM_VERSION, classVisitor);
@@ -19,6 +22,7 @@ public class PowerMockUtilCV extends ClassVisitor {
                 @Override
                 public void visitInsn(int opcode) {
                     if (opcode == Opcodes.RETURN) {
+                        // Before returning create an array<String> with "edu.columbia..." and call the addIgnorePackage method
                         super.visitVarInsn(Opcodes.ALOAD, 0);
                         super.visitInsn(Opcodes.ICONST_1);
                         super.visitTypeInsn(Opcodes.ANEWARRAY, "java/lang/String");
