@@ -1,7 +1,10 @@
 #!/bin/bash
 DACAPO_DIR=dacapo
+JAVA_HOME=/home/vagrant/jvms/jre1.8.0_05-inst
 PHOSPHOR_JAR=`pwd`/target/Phosphor-0.0.4-SNAPSHOT.jar
-BENCHMARKS=(avrora batik fop h2 jython luindex pmd sunflow xalan) #tradebeans tradesoap are disabled in this script because of the PITA with distributing the openjdk jce.jar file with everything, then switching it in...
+# BENCHMARKS=(avrora batik fop h2 jython luindex pmd sunflow xalan) #tradebeans tradesoap are disabled in this script because of the PITA with distributing the openjdk jce.jar file with everything, then switching it in...
+BENCHMARKS=(avrora) #batik fop h2 jython luindex pmd sunflow xalan) #tradebeans tradesoap are disabled in this script because of the PITA with distributing the openjdk jce.jar file with everything, then switching it in...
+
 #tomcat started crashing on travis
 #if you want to run them, copy the jce.jar file from an openjdk distribution of the same version into your hotspot jvm that you are going to instrument before instrumenting it.
 # (export controls are annoying)
@@ -45,6 +48,10 @@ echo "$JAVA_HOME/bin/java -cp $DACAPO_DIR Harness $bm"
 #target/jre-inst-int/bin/java -Xmx1g -Xbootclasspath/p:$PHOSPHOR_JAR -javaagent:$PHOSPHOR_JAR -cp target/dacapo-inst-int/ -Declipse.java.home=$JAVA_HOME Harness $bm
 echo "target/jre-inst-obj/bin/java -Xbootclasspath/p:$PHOSPHOR_JAR -javaagent:$PHOSPHOR_JAR -cp target/dacapo-inst-obj/ -Declipse.java.home=$JAVA_HOME Harness $bm"
 target/jre-inst-obj/bin/java -Xmx1g -Xbootclasspath/p:$PHOSPHOR_JAR -javaagent:$PHOSPHOR_JAR -cp target/dacapo-inst-obj/ -Declipse.java.home=$JAVA_HOME Harness $bm
+#$JAVA_HOME/bin/java -Xmx1g -Xbootclasspath/p:$PHOSPHOR_JAR -javaagent:$PHOSPHOR_JAR -cp target/dacapo-inst-obj/ -Declipse.java.home=$JAVA_HOME Harness $bm
+
+
+
 if [ $? -ne 0 ]; then
 HAD_ERROR=`expr $HAD_ERROR + 1`
 echo "ERROR!!!"
