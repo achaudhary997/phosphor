@@ -301,6 +301,8 @@ public class PreMain {
                     // [+] MyDemoClassVisitor
                     _cv = new MyDemoClassVisitor(_cv);
 
+                    _cv = new MyDemoClassVisitorFuncDup(_cv);
+
                     if (Configuration.WITH_SELECTIVE_INST)
                         cr.accept(new PartialInstrumentationInferencerCV(), ClassReader.EXPAND_FRAMES);
                     cr.accept(
