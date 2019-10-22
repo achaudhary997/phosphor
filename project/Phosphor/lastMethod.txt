@@ -1,0 +1,1249 @@
+
+  // access flags 0x9
+  public static getRegisteredDomain$$PHOSPHORTAGGED(Ljava/lang/String;)Ljava/lang/String;
+    IGNORE 0
+    IGNORE
+   L0
+   L1
+    LINENUMBER 710 L1
+    ALOAD 0
+    BIPUSH 46
+    INVOKEVIRTUAL java/lang/String.lastIndexOf (I)I
+    ISTORE 1
+   L2
+    LINENUMBER 711 L2
+    ILOAD 1
+    ICONST_M1
+    BRANCH_START 1
+    FORCE_CTRL_STORE 0
+    FORCE_CTRL_STORE 5
+    FORCE_CTRL_STORE 4
+    FORCE_CTRL_STORE 3
+    FORCE_CTRL_STORE 2
+    FORCE_CTRL_STORE 1
+    FORCE_CTRL_STORE 10
+    FORCE_CTRL_STORE 8
+    FORCE_CTRL_STORE 9
+    FORCE_CTRL_STORE 6
+    FORCE_CTRL_STORE 7
+    IF_ICMPNE L3
+   L4
+   L5
+    LINENUMBER 712 L5
+    ALOAD 0
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L3
+    LINENUMBER 713 L3
+   FRAME FULL [java/lang/String I] []
+    ILOAD 1
+    BRANCH_START 3
+    FORCE_CTRL_STORE 0
+    FORCE_CTRL_STORE 5
+    FORCE_CTRL_STORE 4
+    FORCE_CTRL_STORE 3
+    FORCE_CTRL_STORE 2
+    FORCE_CTRL_STORE 1
+    FORCE_CTRL_STORE 10
+    FORCE_CTRL_STORE 8
+    FORCE_CTRL_STORE 9
+    FORCE_CTRL_STORE 6
+    FORCE_CTRL_STORE 7
+    IFNE L6
+   L7
+   L8
+    LINENUMBER 714 L8
+    LDC ""
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L6
+    LINENUMBER 715 L6
+   FRAME FULL [java/lang/String I] []
+    ILOAD 1
+    ALOAD 0
+    INVOKEVIRTUAL java/lang/String.length ()I
+    ICONST_1
+    ISUB
+    BRANCH_START 4
+    FORCE_CTRL_STORE 0
+    FORCE_CTRL_STORE 5
+    FORCE_CTRL_STORE 4
+    FORCE_CTRL_STORE 3
+    FORCE_CTRL_STORE 2
+    FORCE_CTRL_STORE 1
+    FORCE_CTRL_STORE 10
+    FORCE_CTRL_STORE 8
+    FORCE_CTRL_STORE 9
+    FORCE_CTRL_STORE 6
+    FORCE_CTRL_STORE 7
+    IF_ICMPNE L9
+   L10
+   L11
+    LINENUMBER 716 L11
+    ALOAD 0
+    ICONST_0
+    ALOAD 0
+    INVOKEVIRTUAL java/lang/String.length ()I
+    ICONST_1
+    ISUB
+    INVOKEVIRTUAL java/lang/String.substring (II)Ljava/lang/String;
+    ASTORE 0
+   L12
+    LINENUMBER 717 L12
+    ALOAD 0
+    BIPUSH 46
+    INVOKEVIRTUAL java/lang/String.lastIndexOf (I)I
+    ISTORE 1
+   L13
+    LINENUMBER 718 L13
+    ILOAD 1
+    ICONST_M1
+    BRANCH_START 6
+    FORCE_CTRL_STORE 5
+    FORCE_CTRL_STORE 4
+    FORCE_CTRL_STORE 3
+    FORCE_CTRL_STORE 2
+    FORCE_CTRL_STORE 10
+    FORCE_CTRL_STORE 8
+    FORCE_CTRL_STORE 9
+    FORCE_CTRL_STORE 6
+    FORCE_CTRL_STORE 7
+    IF_ICMPNE L14
+   L15
+   L16
+    LINENUMBER 719 L16
+    ALOAD 0
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L14
+    LINENUMBER 720 L14
+   FRAME FULL [java/lang/String I] []
+    ILOAD 1
+    BRANCH_START 8
+    FORCE_CTRL_STORE 5
+    FORCE_CTRL_STORE 4
+    FORCE_CTRL_STORE 3
+    FORCE_CTRL_STORE 2
+    FORCE_CTRL_STORE 10
+    FORCE_CTRL_STORE 8
+    FORCE_CTRL_STORE 9
+    FORCE_CTRL_STORE 6
+    FORCE_CTRL_STORE 7
+    IFNE L9
+   L17
+   L18
+    LINENUMBER 721 L18
+    LDC ""
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L9
+    LINENUMBER 723 L9
+   FRAME FULL [java/lang/String I] []
+    ILOAD 1
+    ALOAD 0
+    INVOKEVIRTUAL java/lang/String.length ()I
+    ICONST_1
+    ISUB
+    BRANCH_START 9
+    FORCE_CTRL_STORE 5
+    FORCE_CTRL_STORE 4
+    FORCE_CTRL_STORE 3
+    FORCE_CTRL_STORE 2
+    FORCE_CTRL_STORE 10
+    FORCE_CTRL_STORE 8
+    FORCE_CTRL_STORE 9
+    FORCE_CTRL_STORE 6
+    FORCE_CTRL_STORE 7
+    IF_ICMPNE L19
+   L20
+   L21
+    LINENUMBER 724 L21
+    LDC ""
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L19
+    LINENUMBER 729 L19
+   FRAME FULL [java/lang/String I] []
+    ALOAD 0
+    BIPUSH 46
+    ILOAD 1
+    ICONST_1
+    ISUB
+    INVOKEVIRTUAL java/lang/String.lastIndexOf (II)I
+    ISTORE 2
+   L22
+    LINENUMBER 730 L22
+    ILOAD 2
+    ICONST_M1
+    BRANCH_START 11
+    FORCE_CTRL_STORE 5
+    FORCE_CTRL_STORE 4
+    FORCE_CTRL_STORE 3
+    FORCE_CTRL_STORE 10
+    FORCE_CTRL_STORE 8
+    FORCE_CTRL_STORE 9
+    FORCE_CTRL_STORE 6
+    FORCE_CTRL_STORE 7
+    IF_ICMPNE L23
+   L24
+   L25
+    LINENUMBER 731 L25
+    ALOAD 0
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L23
+    LINENUMBER 732 L23
+   FRAME FULL [java/lang/String I I] []
+    ILOAD 2
+    BRANCH_START 13
+    FORCE_CTRL_STORE 5
+    FORCE_CTRL_STORE 4
+    FORCE_CTRL_STORE 3
+    FORCE_CTRL_STORE 10
+    FORCE_CTRL_STORE 8
+    FORCE_CTRL_STORE 9
+    FORCE_CTRL_STORE 6
+    FORCE_CTRL_STORE 7
+    IFNE L26
+   L27
+   L28
+    LINENUMBER 733 L28
+    LDC ""
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L26
+    LINENUMBER 734 L26
+   FRAME FULL [java/lang/String I I] []
+    ALOAD 0
+    BIPUSH 46
+    ILOAD 2
+    ICONST_1
+    ISUB
+    INVOKEVIRTUAL java/lang/String.lastIndexOf (II)I
+    ISTORE 3
+   L29
+    LINENUMBER 735 L29
+    ICONST_M1
+    ISTORE 4
+   L30
+    LINENUMBER 736 L30
+    ILOAD 3
+    BRANCH_START 14
+    FORCE_CTRL_STORE 4
+    IFLE L31
+   L32
+   L33
+    LINENUMBER 737 L33
+    ALOAD 0
+    BIPUSH 46
+    ILOAD 3
+    ICONST_1
+    ISUB
+    INVOKEVIRTUAL java/lang/String.lastIndexOf (II)I
+    FOLLOWED_BY_FRAME
+    ISTORE 4
+   L31
+    LINENUMBER 739 L31
+   FRAME FULL [java/lang/String I I I I] []
+    BRANCH_END 14
+    ICONST_M1
+    ISTORE 5
+   L34
+    LINENUMBER 740 L34
+    ILOAD 4
+    BRANCH_START 15
+    FORCE_CTRL_STORE 5
+    IFLE L35
+   L36
+   L37
+    LINENUMBER 741 L37
+    ALOAD 0
+    BIPUSH 46
+    ILOAD 4
+    ICONST_1
+    ISUB
+    INVOKEVIRTUAL java/lang/String.lastIndexOf (II)I
+    FOLLOWED_BY_FRAME
+    ISTORE 5
+   L35
+    LINENUMBER 743 L35
+   FRAME FULL [java/lang/String I I I I I] []
+    BRANCH_END 15
+    ALOAD 0
+    ILOAD 1
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    ASTORE 6
+   L38
+    LINENUMBER 744 L38
+    ALOAD 0
+    ILOAD 2
+    ICONST_1
+    IADD
+    ILOAD 1
+    INVOKEVIRTUAL java/lang/String.substring (II)Ljava/lang/String;
+    ASTORE 7
+   L39
+    LINENUMBER 750 L39
+    ILOAD 4
+    ICONST_M1
+    BRANCH_START 16
+    FORCE_CTRL_STORE 10
+    IF_ICMPEQ L40
+   L41
+    ALOAD 6
+    LDC "us"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 18
+    FORCE_CTRL_STORE 10
+    IFEQ L40
+   L42
+    GETSTATIC sun/net/RegisteredDomain.usStateSet : Ljava/util/Set;
+    ALOAD 7
+    INVOKEINTERFACE java/util/Set.contains (Ljava/lang/Object;)Z (itf)
+    BRANCH_START 19
+    FORCE_CTRL_STORE 10
+    IFEQ L40
+   L43
+   L44
+    LINENUMBER 751 L44
+    ALOAD 0
+    ILOAD 3
+    ICONST_1
+    IADD
+    ILOAD 2
+    INVOKEVIRTUAL java/lang/String.substring (II)Ljava/lang/String;
+    ASTORE 8
+   L45
+    LINENUMBER 752 L45
+    ALOAD 0
+    ILOAD 4
+    ICONST_1
+    IADD
+    ILOAD 3
+    INVOKEVIRTUAL java/lang/String.substring (II)Ljava/lang/String;
+    ASTORE 9
+   L46
+    LINENUMBER 753 L46
+    ALOAD 8
+    LDC "k12"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 20
+    FORCE_CTRL_STORE 10
+    FORCE_CTRL_STORE 8
+    FORCE_CTRL_STORE 9
+    IFEQ L40
+   L47
+   L48
+    LINENUMBER 754 L48
+    ALOAD 7
+    LDC "ma"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 21
+    IFEQ L49
+   L50
+    ALOAD 9
+    LDC "chtr"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 22
+    IFNE L51
+   L52
+    ALOAD 9
+    LDC "paroch"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 23
+    FOLLOWED_BY_FRAME
+    IFEQ L49
+   L53
+   L51
+    LINENUMBER 755 L51
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/lang/String] []
+    ALOAD 0
+    ILOAD 5
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L49
+    LINENUMBER 756 L49
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/lang/String] []
+    ALOAD 9
+    LDC "pvt"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 24
+    FORCE_CTRL_STORE 10
+    FORCE_CTRL_STORE 8
+    FORCE_CTRL_STORE 9
+    IFEQ L40
+   L54
+   L55
+    LINENUMBER 757 L55
+    ALOAD 0
+    ILOAD 5
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L40
+    LINENUMBER 765 L40
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String] []
+    ALOAD 0
+    ILOAD 3
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    ASTORE 8
+   L56
+    LINENUMBER 766 L56
+    ILOAD 3
+    ICONST_M1
+    BRANCH_START 25
+    FORCE_CTRL_STORE 10
+    IF_ICMPEQ L57
+   L58
+   L59
+    LINENUMBER 767 L59
+    GETSTATIC sun/net/RegisteredDomain.top3Map : Ljava/util/Map;
+    ALOAD 6
+    INVOKEINTERFACE java/util/Map.get (Ljava/lang/Object;)Ljava/lang/Object; (itf)
+    CHECKCAST java/util/Set
+    ASTORE 9
+   L60
+    LINENUMBER 768 L60
+    ALOAD 9
+    BRANCH_START 27
+    FORCE_CTRL_STORE 10
+    IFNULL L61
+   L62
+   L63
+    LINENUMBER 769 L63
+    ALOAD 9
+    ALOAD 8
+    INVOKEINTERFACE java/util/Set.contains (Ljava/lang/Object;)Z (itf)
+    BRANCH_START 28
+    FORCE_CTRL_STORE 9
+    IFEQ L57
+   L64
+   L65
+    LINENUMBER 770 L65
+    ALOAD 0
+    ILOAD 4
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L61
+    LINENUMBER 772 L61
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 6
+    LDC "us"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 29
+    FORCE_CTRL_STORE 10
+    IFEQ L66
+   L67
+    GETSTATIC sun/net/RegisteredDomain.usStateSet : Ljava/util/Set;
+    ALOAD 7
+    INVOKEINTERFACE java/util/Set.contains (Ljava/lang/Object;)Z (itf)
+    BRANCH_START 30
+    FORCE_CTRL_STORE 10
+    IFEQ L66
+   L68
+   L69
+    LINENUMBER 774 L69
+    ALOAD 0
+    ILOAD 3
+    ICONST_1
+    IADD
+    ILOAD 2
+    INVOKEVIRTUAL java/lang/String.substring (II)Ljava/lang/String;
+    ASTORE 10
+   L70
+    LINENUMBER 775 L70
+    GETSTATIC sun/net/RegisteredDomain.usSubStateSet : Ljava/util/Set;
+    ALOAD 10
+    INVOKEINTERFACE java/util/Set.contains (Ljava/lang/Object;)Z (itf)
+    BRANCH_START 31
+    IFEQ L71
+   L72
+   L73
+    LINENUMBER 776 L73
+    ILOAD 4
+    ICONST_M1
+    BRANCH_START 32
+    IF_ICMPEQ L74
+   L75
+    ALOAD 0
+    ILOAD 4
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FOLLOWED_BY_FRAME
+    GOTO L76
+   L77
+   L74
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set java/lang/String] []
+    FOLLOWED_BY_FRAME
+    ALOAD 0
+   L76
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set java/lang/String] [java/lang/String]
+    BRANCH_END 32
+    BRANCH_END 33
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L71
+    LINENUMBER 778 L71
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set java/lang/String] []
+    ALOAD 0
+    ILOAD 3
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L66
+    LINENUMBER 780 L66
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 6
+    LDC "uk"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 34
+    IFEQ L78
+   L79
+   L80
+    LINENUMBER 781 L80
+    ALOAD 7
+    LDC "sch"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 35
+    FORCE_CTRL_STORE 9
+    IFEQ L57
+   L81
+   L82
+    LINENUMBER 782 L82
+    ALOAD 0
+    ILOAD 4
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L78
+    LINENUMBER 784 L78
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 6
+    LDC "jp"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 36
+    FORCE_CTRL_STORE 9
+    IFEQ L57
+   L83
+   L84
+    LINENUMBER 785 L84
+    GETSTATIC sun/net/RegisteredDomain.jpSet : Ljava/util/Set;
+    ALOAD 7
+    INVOKEINTERFACE java/util/Set.contains (Ljava/lang/Object;)Z (itf)
+    BRANCH_START 37
+    FORCE_CTRL_STORE 9
+    IFEQ L57
+   L85
+   L86
+    LINENUMBER 786 L86
+    GETSTATIC sun/net/RegisteredDomain.jp2Set : Ljava/util/Set;
+    ALOAD 8
+    INVOKEINTERFACE java/util/Set.contains (Ljava/lang/Object;)Z (itf)
+    BRANCH_START 38
+    IFEQ L87
+   L88
+   L89
+    LINENUMBER 787 L89
+    ALOAD 0
+    ILOAD 3
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L87
+    LINENUMBER 789 L87
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 0
+    ILOAD 4
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L57
+    LINENUMBER 797 L57
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String] []
+    GETSTATIC sun/net/RegisteredDomain.jp2Set : Ljava/util/Set;
+    ALOAD 8
+    INVOKEINTERFACE java/util/Set.contains (Ljava/lang/Object;)Z (itf)
+    BRANCH_START 39
+    FORCE_CTRL_STORE 9
+    IFEQ L90
+   L91
+   L92
+    LINENUMBER 798 L92
+    ALOAD 0
+    ILOAD 3
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L90
+    LINENUMBER 804 L90
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String] []
+    GETSTATIC sun/net/RegisteredDomain.topMap : Ljava/util/Map;
+    ALOAD 6
+    INVOKEINTERFACE java/util/Map.get (Ljava/lang/Object;)Ljava/lang/Object; (itf)
+    CHECKCAST java/util/Set
+    ASTORE 9
+   L93
+    LINENUMBER 805 L93
+    ALOAD 9
+    BRANCH_START 40
+    IFNULL L94
+   L95
+   L96
+    LINENUMBER 806 L96
+    ALOAD 9
+    ALOAD 7
+    INVOKEINTERFACE java/util/Set.contains (Ljava/lang/Object;)Z (itf)
+    BRANCH_START 41
+    IFEQ L97
+   L98
+   L99
+    LINENUMBER 807 L99
+    ALOAD 0
+    ILOAD 3
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L97
+    LINENUMBER 809 L97
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 6
+    LDC "us"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 42
+    IFEQ L100
+   L101
+    GETSTATIC sun/net/RegisteredDomain.usStateSet : Ljava/util/Set;
+    ALOAD 7
+    INVOKEINTERFACE java/util/Set.contains (Ljava/lang/Object;)Z (itf)
+    BRANCH_START 43
+    FOLLOWED_BY_FRAME
+    IFNE L102
+   L103
+   L100
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 6
+    LDC "jp"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 44
+    IFEQ L104
+   L105
+    GETSTATIC sun/net/RegisteredDomain.jpSet : Ljava/util/Set;
+    ALOAD 7
+    INVOKEINTERFACE java/util/Set.contains (Ljava/lang/Object;)Z (itf)
+    BRANCH_START 45
+    FOLLOWED_BY_FRAME
+    IFNE L102
+   L106
+   L104
+    LINENUMBER 810 L104
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 0
+    ILOAD 2
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L94
+    LINENUMBER 812 L94
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    GETSTATIC sun/net/RegisteredDomain.top2Set : Ljava/util/Set;
+    ALOAD 6
+    INVOKEINTERFACE java/util/Set.contains (Ljava/lang/Object;)Z (itf)
+    BRANCH_START 46
+    IFEQ L107
+   L108
+   L109
+    LINENUMBER 813 L109
+    ALOAD 7
+    LDC "gov"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 47
+    IFEQ L110
+   L111
+   L112
+    LINENUMBER 814 L112
+    ALOAD 0
+    ILOAD 3
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L110
+    LINENUMBER 816 L110
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 0
+    ILOAD 2
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L107
+    LINENUMBER 817 L107
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    GETSTATIC sun/net/RegisteredDomain.top3Set : Ljava/util/Set;
+    ALOAD 6
+    INVOKEINTERFACE java/util/Set.contains (Ljava/lang/Object;)Z (itf)
+    BRANCH_START 48
+    IFEQ L113
+   L114
+   L115
+    LINENUMBER 818 L115
+    ALOAD 6
+    LDC "ad"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 49
+    IFEQ L116
+   L117
+    ALOAD 7
+    LDC "nom"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 50
+    FOLLOWED_BY_FRAME
+    IFNE L118
+   L119
+   L116
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 6
+    LDC "aw"
+   L120
+    LINENUMBER 819 L120
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 51
+    IFEQ L121
+   L122
+    ALOAD 7
+    LDC "com"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 52
+    FOLLOWED_BY_FRAME
+    IFNE L118
+   L123
+   L121
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 6
+    LDC "be"
+   L124
+    LINENUMBER 820 L124
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 53
+    IFEQ L125
+   L126
+    ALOAD 7
+    LDC "ac"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 54
+    FOLLOWED_BY_FRAME
+    IFNE L118
+   L127
+   L125
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 6
+    LDC "cl"
+   L128
+    LINENUMBER 821 L128
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 55
+    IFEQ L129
+   L130
+    ALOAD 7
+    LDC "gov"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 56
+    FOLLOWED_BY_FRAME
+    IFNE L118
+   L131
+   L129
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 6
+    LDC "cl"
+   L132
+    LINENUMBER 822 L132
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 57
+    IFEQ L133
+   L134
+    ALOAD 7
+    LDC "gob"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 58
+    FOLLOWED_BY_FRAME
+    IFNE L118
+   L135
+   L133
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 6
+    LDC "fi"
+   L136
+    LINENUMBER 823 L136
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 59
+    IFEQ L137
+   L138
+    ALOAD 7
+    LDC "aland"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 60
+    FOLLOWED_BY_FRAME
+    IFNE L118
+   L139
+   L137
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 6
+    LDC "int"
+   L140
+    LINENUMBER 824 L140
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 61
+    IFEQ L141
+   L142
+    ALOAD 7
+    LDC "eu"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 62
+    FOLLOWED_BY_FRAME
+    IFNE L118
+   L143
+   L141
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 6
+    LDC "io"
+   L144
+    LINENUMBER 825 L144
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 63
+    IFEQ L145
+   L146
+    ALOAD 7
+    LDC "com"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 64
+    FOLLOWED_BY_FRAME
+    IFNE L118
+   L147
+   L145
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 6
+    LDC "mc"
+   L148
+    LINENUMBER 826 L148
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 65
+    IFEQ L149
+   L150
+    ALOAD 7
+    LDC "tm"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 66
+    FOLLOWED_BY_FRAME
+    IFNE L118
+   L151
+   L149
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 6
+    LDC "mc"
+   L152
+    LINENUMBER 827 L152
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 67
+    IFEQ L153
+   L154
+    ALOAD 7
+    LDC "asso"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 68
+    FOLLOWED_BY_FRAME
+    IFNE L118
+   L155
+   L153
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 6
+    LDC "vc"
+   L156
+    LINENUMBER 828 L156
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 69
+    IFEQ L157
+   L158
+    ALOAD 7
+    LDC "com"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 70
+    FOLLOWED_BY_FRAME
+    IFEQ L157
+   L159
+   L118
+    LINENUMBER 829 L118
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 0
+    ILOAD 3
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L157
+    LINENUMBER 831 L157
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 0
+    ILOAD 2
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L113
+    LINENUMBER 832 L113
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    GETSTATIC sun/net/RegisteredDomain.top4Set : Ljava/util/Set;
+    ALOAD 6
+    INVOKEINTERFACE java/util/Set.contains (Ljava/lang/Object;)Z (itf)
+    BRANCH_START 71
+    IFEQ L160
+   L161
+   L162
+    LINENUMBER 833 L162
+    ALOAD 7
+    LDC "com"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 72
+    IFNE L163
+   L164
+    ALOAD 7
+    LDC "edu"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 73
+    IFNE L163
+   L165
+    ALOAD 7
+    LDC "gov"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 74
+    IFNE L163
+   L166
+    ALOAD 7
+    LDC "net"
+   L167
+    LINENUMBER 834 L167
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 75
+    IFNE L163
+   L168
+    ALOAD 7
+    LDC "org"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 76
+    FOLLOWED_BY_FRAME
+    IFEQ L169
+   L170
+   L163
+    LINENUMBER 835 L163
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 0
+    ILOAD 3
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L169
+    LINENUMBER 837 L169
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 0
+    ILOAD 2
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L160
+    LINENUMBER 838 L160
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    GETSTATIC sun/net/RegisteredDomain.top5Set : Ljava/util/Set;
+    ALOAD 6
+    INVOKEINTERFACE java/util/Set.contains (Ljava/lang/Object;)Z (itf)
+    BRANCH_START 77
+    IFEQ L102
+   L171
+   L172
+    LINENUMBER 839 L172
+    ALOAD 0
+    ILOAD 3
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L102
+    LINENUMBER 845 L102
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 6
+    LDC "tr"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 78
+    IFEQ L173
+   L174
+   L175
+    LINENUMBER 846 L175
+    ALOAD 7
+    LDC "nic"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 79
+    IFNE L176
+   L177
+    ALOAD 7
+    LDC "tsk"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 80
+    IFNE L176
+   L178
+   L179
+    LINENUMBER 847 L179
+    ALOAD 0
+    ILOAD 3
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L176
+    LINENUMBER 849 L176
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 0
+    ILOAD 2
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L173
+    LINENUMBER 850 L173
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 6
+    LDC "uk"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 81
+    IFEQ L180
+   L181
+   L182
+    LINENUMBER 851 L182
+    GETSTATIC sun/net/RegisteredDomain.ukSet : Ljava/util/Set;
+    ALOAD 7
+    INVOKEINTERFACE java/util/Set.contains (Ljava/lang/Object;)Z (itf)
+    BRANCH_START 82
+    IFNE L183
+   L184
+   L185
+    LINENUMBER 852 L185
+    ALOAD 0
+    ILOAD 3
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L183
+    LINENUMBER 854 L183
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 0
+    ILOAD 2
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L180
+    LINENUMBER 855 L180
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 6
+    LDC "ar"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 83
+    IFEQ L186
+   L187
+   L188
+    LINENUMBER 856 L188
+    GETSTATIC sun/net/RegisteredDomain.arSet : Ljava/util/Set;
+    ALOAD 7
+    INVOKEINTERFACE java/util/Set.contains (Ljava/lang/Object;)Z (itf)
+    BRANCH_START 84
+    IFNE L189
+   L190
+   L191
+    LINENUMBER 857 L191
+    ALOAD 0
+    ILOAD 3
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L189
+    LINENUMBER 859 L189
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 0
+    ILOAD 2
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L186
+    LINENUMBER 860 L186
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 6
+    LDC "om"
+    INVOKEVIRTUAL java/lang/String.equals (Ljava/lang/Object;)Z
+    BRANCH_START 85
+    IFEQ L192
+   L193
+   L194
+    LINENUMBER 861 L194
+    GETSTATIC sun/net/RegisteredDomain.omSet : Ljava/util/Set;
+    ALOAD 7
+    INVOKEINTERFACE java/util/Set.contains (Ljava/lang/Object;)Z (itf)
+    BRANCH_START 86
+    IFNE L195
+   L196
+   L197
+    LINENUMBER 862 L197
+    ALOAD 0
+    ILOAD 3
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L195
+    LINENUMBER 864 L195
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 0
+    ILOAD 2
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L192
+    LINENUMBER 870 L192
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    GETSTATIC sun/net/RegisteredDomain.top1Set : Ljava/util/Set;
+    ALOAD 6
+    INVOKEINTERFACE java/util/Set.contains (Ljava/lang/Object;)Z (itf)
+    BRANCH_START 87
+    IFEQ L198
+   L199
+   L200
+    LINENUMBER 871 L200
+    ALOAD 0
+    ILOAD 2
+    ICONST_1
+    IADD
+    INVOKEVIRTUAL java/lang/String.substring (I)Ljava/lang/String;
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    FOLLOWED_BY_FRAME
+    ARETURN
+   L198
+    LINENUMBER 877 L198
+   FRAME FULL [java/lang/String I I I I I java/lang/String java/lang/String java/lang/String java/util/Set] []
+    ALOAD 0
+    FORCE_CTRL_STORE
+    BRANCH_END -1
+    ARETURN
+    MAXSTACK = 104
+    MAXLOCALS = 11
+}
