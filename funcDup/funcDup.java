@@ -14,6 +14,17 @@ import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.MethodNode;
+
 import static org.objectweb.asm.Opcodes.*;
 
 public class funcDup {
@@ -24,65 +35,61 @@ public class funcDup {
 
 		//read in, build classNode
 		FileInputStream is = new FileInputStream(args[0]);
-		FileInputStream isDup = new FileInputStream(args[0]);
 
 		// Read once
-		ClassNode classNode=new ClassNode();
+		ClassNode cn=new ClassNode();
 		ClassReader cr = new ClassReader(is);
-		cr.accept(classNode, 0);
+		cr.accept(cn, 0);
 
 		// Read again
 		// ClassNode classNodeDup = new ClassNode();
-		ClassNode classNodeDup = (ClassNode) ((Object) classNode).clone();
 		// ClassReader crDup = new ClassReader(isDup);
 		// crDup.accept(classNodeDup, 0);
 
 		//peek at classNode and modifier
-		List<MethodNode> methods=(List<MethodNode>)classNode.methods;
+		List<MethodNode> methods=(List<MethodNode>)cn.methods;
 		List<MethodNode> dupMethods = new ArrayList<MethodNode>();
 		dupMethods.addAll(methods);
 
-		List<MethodNode> methodsDup = (List<MethodNode>)classNodeDup.methods;
-		// dupMethods.addAll(methods);
-
-		for (MethodNode method: methodsDup) {
-			System.out.println("name="+method.name+" desc="+method.desc);
+		for (MethodNode method: methods) {
 			if (method.name.equals("<init>") || method.name.equals("<clinit>") || method.name.equals("main")) {
 				continue;
 			}
-			method.name = method.name + FASTSUFFIX;
+			// System.out.println("name="+method.name+" desc="+method.desc);
 			dupMethods.add(method);
 		}
-		classNode.methods = dupMethods;
+		cn.methods = dupMethods;
 
-		// for(MethodNode method: methods) {
-		// 	System.out.println("name="+method.name+" desc="+method.desc);
-		// 	InsnList insnList=method.instructions;
-		// 	Iterator ite=insnList.iterator();
-		// 	while(ite.hasNext()) {
-		// 		AbstractInsnNode insn=(AbstractInsnNode)ite.next();
-		// 		int opcode=insn.getOpcode();
-		// 		//add before return: System.out.println("Returning ... ")
-		// 		if (opcode==RETURN) {
-		// 			System.out.println("HIIIIHI");
-		// 			InsnList tempList=new InsnList();
-		// 			tempList.add(new FieldInsnNode(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;"));
-		// 			tempList.add(new LdcInsnNode("Returning ... "));
-		// 			tempList.add(new MethodInsnNode(INVOKEVIRTUAL,"java/io/PrintStream","println", "(Ljava/lang/String;)V"));
-		// 			insnList.insert(insn.getPrevious(), tempList);
-		// 			method.maxStack +=2;
-		// 		}
-		// 	}
-		// }
+		ClassWriter cw = new ClassWriter(0);
+		cn.accept(cw);
+		
+		byte[] b = cw.toByteArray();
+		
+		ClassNode cnDup = new ClassNode();
+		ClassReader crDup = new ClassReader(b);
+		crDup.accept(cnDup, 0);		
+		List<MethodNode> methodsDup = (List<MethodNode>) cnDup.methods;
+		Set<String> hasBeenSeen = new HashSet<String>();
+		
+		for (MethodNode method : methodsDup) {
+			String check = method.name + ":" + method.desc;
+			if (hasBeenSeen.contains(check)) {
+				System.out.println("name="+method.name+" desc="+method.desc);
+				method.name = method.name + FASTSUFFIX;
+			} else {
+				hasBeenSeen.add(check);
+			}
+		}
+		 		
 		
 		
 		//write classNode
-		ClassWriter cw = new ClassWriter(0);
-		classNode.accept(cw);
+		ClassWriter cwfinal = new ClassWriter(0);
+		cnDup.accept(cwfinal);
 		FileOutputStream fos = new FileOutputStream(args[1]);
-		byte[] b;
-		b = cw.toByteArray();
-		fos.write(b);
+		byte[] bfinal;
+		bfinal = cwfinal.toByteArray();
+		fos.write(bfinal);
 		fos.close();
 
 		// output("/tmp/sample/Hello.class",  out.toByteArray());
