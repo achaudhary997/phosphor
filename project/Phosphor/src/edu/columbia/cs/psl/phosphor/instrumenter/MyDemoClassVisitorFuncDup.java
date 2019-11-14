@@ -15,7 +15,7 @@ import edu.columbia.cs.psl.phosphor.Configuration;
 
 public class MyDemoClassVisitorFuncDup extends ClassVisitor {
 	ClassVisitor next;
-	final String FASTSUFFIX = "_$$FAST";
+	public static final String FASTSUFFIX = "_$$FAST";
 
 	public MyDemoClassVisitorFuncDup(ClassVisitor cv) {
 		super(Configuration.ASM_VERSION, new ClassNode());
@@ -41,15 +41,15 @@ public class MyDemoClassVisitorFuncDup extends ClassVisitor {
 
 		ClassWriter cw = new ClassWriter(0);
 		cn.accept(cw);
-		
+
 		byte[] b = cw.toByteArray();
-		
+
 		ClassNode cnDup = new ClassNode();
 		ClassReader crDup = new ClassReader(b);
-		crDup.accept(cnDup, 0);		
+		crDup.accept(cnDup, 0);
 		List<MethodNode> methodsDup = (List<MethodNode>) cnDup.methods;
 		Set<String> hasBeenSeen = new HashSet<String>();
-		
+
 		for (MethodNode method : methodsDup) {
 			String check = method.name + ":" + method.desc;
 			if (hasBeenSeen.contains(check)) {
@@ -59,7 +59,7 @@ public class MyDemoClassVisitorFuncDup extends ClassVisitor {
 				hasBeenSeen.add(check);
 			}
 		}
-		 		
+
 
 
 		cnDup.accept(next);

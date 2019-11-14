@@ -1,5 +1,6 @@
 package edu.columbia.cs.psl.phosphor.instrumenter;
 
+import edu.columbia.cs.psl.phosphor.instrumenter.MyDemoClassVisitorFuncDup;
 import edu.columbia.cs.psl.phosphor.Configuration;
 import edu.columbia.cs.psl.phosphor.Instrumenter;
 import edu.columbia.cs.psl.phosphor.TaintUtils;
@@ -352,6 +353,11 @@ public class TaintTrackingClassVisitor extends ClassVisitor {
         }
         String originalName = name;
         if (FIELDS_ONLY) { // || isAnnotation
+            return super.visitMethod(access, name, desc, signature, exceptions);
+        }
+
+        if (name.contains(MyDemoClassVisitorFuncDup.FASTSUFFIX))
+        {
             return super.visitMethod(access, name, desc, signature, exceptions);
         }
 
